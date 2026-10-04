@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>H11 Neubau – Döner · Grill · Pizza in 1070 Wien</title>
+  <meta name="description" content="H11 Neubau – Döner, Grill und Pizza. Frisch zubereitet, mitten in 1070 Wien. Jetzt direkt bestellen.">
+  <meta name="theme-color" content="#111111">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700&family=Archivo+Black&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header" id="top">
+    <div class="container header__in">
+      <a href="#top" class="logo">H11 <span>NEUBAU</span></a>
+      <nav class="nav" id="nav" aria-label="Hauptnavigation">
+        <a href="#speisekarte">Speisekarte</a>
+        <a href="#favorites">Favorites</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#standort">Standort</a>
+        <a href="#bestellen" class="btn btn--primary nav__cta">Jetzt bestellen</a>
+      </nav>
+      <a href="#bestellen" class="btn btn--primary btn--sm header__cta">Bestellen</a>
+      <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__in">
+        <div class="hero__text">
+          <p class="eyebrow">H11 NEUBAU</p>
+          <p class="hero__sub">Döner · Grill · Pizza</p>
+          <h1>Fresh.<br>Fast.<br><em>Neubau.</em></h1>
+          <p class="hero__lead">Frisch zubereitet. Voller Geschmack. Mitten in 1070 Wien.</p>
+          <div class="btns">
+            <a href="#speisekarte" class="btn btn--light">Speisekarte ansehen</a>
+            <a href="#bestellen" class="btn btn--primary">Jetzt bestellen</a>
+          </div>
+        </div>
+        <div class="hero__img">
+          <img src="assets/hero.jpg" alt="Frisch zubereiteter Döner mit Dampf" fetchpriority="high">
+          <span class="sticker">Frisch<br>vom Grill</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Döner</span><span>Grill</span><span>Pizza</span><span>Wraps</span><span>Bowls</span><span>Neubau</span>
+        <span>Döner</span><span>Grill</span><span>Pizza</span><span>Wraps</span><span>Bowls</span><span>Neubau</span>
+      </div>
+    </div>
+
+    <section class="section" id="favorites">
+      <div class="container">
+        <p class="eyebrow eyebrow--dark">Must-try</p>
+        <h2>Unsere Favorites</h2>
+        <div class="cards" id="favGrid"></div>
+      </div>
+    </section>
+
+    <section class="section section--dark" id="speisekarte">
+      <div class="container">
+        <p class="eyebrow">Hunger?</p>
+        <h2>Speisekarte</h2>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Kategorien"></div>
+        <ul class="menu" id="menuList" role="tabpanel"></ul>
+        <p class="note">Demo-Inhalte – die finale Speisekarte folgt.</p>
+      </div>
+    </section>
+
+    <section class="section order" id="bestellen">
+      <div class="container">
+        <h2>Hungrig? Bestell direkt.</h2>
+        <p class="lead">Wähle deine Lieblings-Plattform – wir kümmern uns um den Rest.</p>
+        <div class="orders" id="orders"></div>
+      </div>
+    </section>
+
+    <section class="section" id="galerie">
+      <div class="container">
+        <p class="eyebrow eyebrow--dark">Appetit?</p>
+        <h2>Galerie</h2>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <section class="section section--dark" id="standort">
+      <div class="container loc">
+        <div>
+          <p class="eyebrow">Standort</p>
+          <h2>H11 in Neubau</h2>
+          <p class="addr" id="addr"></p>
+          <h3>Öffnungszeiten</h3>
+          <ul class="hours" id="hours"></ul>
+          <p class="note" id="hoursNote"></p>
+          <a class="btn btn--primary" id="route" target="_blank" rel="noopener">Route planen</a>
+        </div>
+        <div class="map"><iframe id="map" title="Karte H11 Neubau" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      </div>
+    </section>
+
+    <section class="final">
+      <div class="container">
+        <h2>Heute schon H11?</h2>
+        <div class="btns btns--c">
+          <a href="#bestellen" class="btn btn--dark">Jetzt bestellen</a>
+          <a href="#speisekarte" class="btn btn--light-o">Speisekarte ansehen</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__in">
+      <div>
+        <strong class="logo">H11 <span>NEUBAU</span></strong>
+        <p id="fAddr"></p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <a href="#speisekarte">Speisekarte</a><a href="#favorites">Favorites</a><a href="#galerie">Galerie</a><a href="#standort">Standort</a>
+      </div>
+      <div id="fOrder"><h4>Bestellen</h4></div>
+      <div>
+        <h4>Folgen</h4>
+        <a id="insta" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <span>© <span id="yr"></span> H11 Neubau</span>
+      <span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
