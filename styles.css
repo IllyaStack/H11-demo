@@ -175,3 +175,16 @@ h2{font-size:clamp(2rem,6vw,3.6rem);line-height:1;text-transform:uppercase;lette
 .footer__bottom .ph{opacity:.7}
 @media (max-width:760px){.hours li{max-width:none;gap:12px}.map,.map iframe{min-height:280px}.btn{min-height:48px}}
 @media (max-width:400px){.logo{font-size:1.05rem}.header__cta{padding:0 14px}.hero h1{font-size:3rem}.order-card span{font-size:1.7rem}}
+
+.menu p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.menu li>div{min-width:0}
+.menu h3{overflow-wrap:anywhere}
+
+/* scrollbare Kategorien mit Pfeilen */
+.tabs-wrap{position:relative;margin-bottom:24px}
+.tabs-wrap .tabs{margin:0;padding-inline:0;cursor:grab;user-select:none}
+.tabs-arrow{position:absolute;top:0;z-index:2;width:46px;height:46px;border-radius:50%;border:0;background:var(--or);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;box-shadow:0 0 18px 10px var(--bk);transition:transform .2s}
+.tabs-arrow:hover{transform:scale(1.08)}
+.tabs-arrow[hidden]{display:none}
+.tabs-arrow.prev{left:0}.tabs-arrow.next{right:0}
+@media (max-width:760px){.tabs-wrap .tabs{margin:0 -16px;padding-inline:16px}.tabs-arrow{display:none}}

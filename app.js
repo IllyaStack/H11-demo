@@ -31,6 +31,28 @@
   });
   show(C.menu[0].id);
 
+  // Tab-Navigation: Pfeile, Drag-to-scroll, aktiver Tab im Blick
+  const wrap = el('<div class="tabs-wrap"><button class="tabs-arrow prev" aria-label="Zurück" hidden>‹</button><button class="tabs-arrow next" aria-label="Weiter">›</button></div>');
+  tabs.before(wrap); wrap.insertBefore(tabs, wrap.querySelector(".next"));
+  const [prev, next] = wrap.querySelectorAll(".tabs-arrow");
+  const upd = () => {
+    prev.hidden = tabs.scrollLeft < 8;
+    next.hidden = tabs.scrollLeft + tabs.clientWidth >= tabs.scrollWidth - 8;
+  };
+  prev.onclick = () => tabs.scrollBy({ left: -tabs.clientWidth * 0.7, behavior: "smooth" });
+  next.onclick = () => tabs.scrollBy({ left: tabs.clientWidth * 0.7, behavior: "smooth" });
+  tabs.addEventListener("scroll", upd, { passive: true });
+  window.addEventListener("resize", upd);
+  tabs.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (b && !moved) b.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  });
+  let down = false, sx = 0, sl = 0, moved = false;
+  tabs.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") return; down = true; moved = false; sx = e.clientX; sl = tabs.scrollLeft; });
+  window.addEventListener("pointermove", (e) => { if (!down) return; const d = e.clientX - sx; if (Math.abs(d) > 5) moved = true; tabs.scrollLeft = sl - d; });
+  window.addEventListener("pointerup", () => { down = false; setTimeout(() => (moved = false)); });
+  tabs.addEventListener("click", (e) => { if (moved) e.stopPropagation(); }, true);
+  upd();
+
   // Orders
   const platforms = [["wolt", "Wolt"], ["lieferando", "Lieferando"], ["foodora", "Foodora"]];
   $("#orders").append(...platforms.map(([k, n]) => el(
