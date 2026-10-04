@@ -44,14 +44,17 @@
   // Location
   $("#addr").innerHTML = `${C.address.street} · ${C.address.zip} ${C.address.city}`;
   $("#hours").innerHTML = C.hours.map((h) => `<li><span>${h.day}</span><span>${h.time}</span></li>`).join("");
-  $("#hoursNote").textContent = C.hoursConfirmed ? "" : "Öffnungszeiten folgen in Kürze.";
+  $("#hoursNote").textContent = C.hoursConfirmed ? "" : "Öffnungszeiten werden noch ergänzt.";
+  if (!C.hoursConfirmed) $("#hours").classList.add("tbd");
   const q = encodeURIComponent(C.mapQuery);
   $("#map").src = `https://www.google.com/maps?q=${q}&output=embed`;
-  $("#route").href = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
+  $("#route").href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(C.routeQuery)}`;
 
   // Footer
   $("#fAddr").textContent = full;
-  $("#insta").href = C.social.instagram;
+  const ig = $("#insta");
+  if (C.social.instagram) { ig.href = C.social.instagram; ig.target = "_blank"; ig.rel = "noopener"; }
+  else { ig.classList.add("ph"); ig.setAttribute("aria-disabled", "true"); }
   $("#yr").textContent = new Date().getFullYear();
 
   // Mobile nav

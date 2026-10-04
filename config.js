@@ -6,7 +6,8 @@ window.H11 = {
   name: "H11 Neubau",
   address: { street: "Neubaugasse 9", zip: "1070", city: "Wien" },
 
-  // Externe Bestell-Links – hier ersetzen (TODO: echte URLs eintragen)
+  // Externe Bestell-Links (öffnen in neuem Tab).
+  // TODO: Durch die restaurant-spezifischen H11-Neubau-URLs ersetzen – aktuell nur Plattform-Startseiten.
   orderLinks: {
     wolt: "https://wolt.com/",
     lieferando: "https://www.lieferando.at/",
@@ -14,19 +15,20 @@ window.H11 = {
   },
 
   social: {
-    instagram: "https://www.instagram.com/", // TODO: echten Account eintragen
+    instagram: null, // TODO: echte H11-Neubau-URL eintragen; null = nicht klickbarer Platzhalter
   },
 
   // PLATZHALTER – Öffnungszeiten sind NICHT bestätigt.
   hoursConfirmed: false,
   hours: [
-    { day: "Montag – Donnerstag", time: "—" },
-    { day: "Freitag – Samstag", time: "—" },
-    { day: "Sonntag", time: "—" },
+    { day: "Montag – Donnerstag", time: "Wird ergänzt" },
+    { day: "Freitag – Samstag", time: "Wird ergänzt" },
+    { day: "Sonntag", time: "Wird ergänzt" },
   ],
 
   // Google-Maps-Embed (Suche nach Adresse, kein API-Key nötig)
   mapQuery: "Neubaugasse 9, 1070 Wien",
+  routeQuery: "H11 Neubau, Neubaugasse 9, 1070 Wien",
 
   // Favorites: price = null → "Preis folgt"
   favorites: [
