@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Küche – H11 Neubau</title>
+  <meta name="theme-color" content="#111111">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700&family=Archivo+Black&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/kitchen.css">
+</head>
+<body class="k">
+  <!-- Anmeldung (nur im Echtmodus mit Supabase) -->
+  <section id="login" class="klogin" hidden>
+    <form id="loginForm" novalidate>
+      <h1>H11 Küche</h1>
+      <p>Anmeldung für Restaurant-Personal</p>
+      <label>E-Mail<input id="lEmail" type="email" autocomplete="username" required></label>
+      <label>Passwort<input id="lPass" type="password" autocomplete="current-password" required></label>
+      <p class="kerr" id="lErr" role="alert"></p>
+      <button class="kbtn kbtn--go" type="submit">Anmelden</button>
+    </form>
+  </section>
+
+  <div id="app" hidden>
+    <header class="kbar">
+      <strong class="kbrand">H11 <span>KÜCHE</span></strong>
+      <button id="orderToggle" class="otoggle" type="button" aria-pressed="true">
+        <span>ONLINE-BESTELLUNGEN</span><b id="orderState">…</b>
+      </button>
+      <span id="conn" class="kconn">● Live</span>
+      <button id="soundBtn" class="kbtn" type="button">Ton aktivieren</button>
+      <button id="testBtn" class="kbtn" type="button" hidden>+ Test-Bestellung</button>
+      <button id="logout" class="kbtn" type="button" hidden>Abmelden</button>
+    </header>
+    <nav class="ktabs" aria-label="Bereiche">
+      <button class="on" data-v="live" type="button">Bestellungen <span id="cLive" class="kcount">0</span></button>
+      <button data-v="history" type="button">Verlauf</button>
+      <button data-v="menu" type="button">Verfügbarkeit</button>
+    </nav>
+    <p class="kflash" id="flash" role="status" hidden>Neue Bestellung!</p>
+    <main>
+      <section id="vLive" class="cols">
+        <div class="col col--new"><h2>Neu <span id="n1">0</span></h2><div id="colNew"></div></div>
+        <div class="col col--prep"><h2>In Zubereitung <span id="n2">0</span></h2><div id="colPrep"></div></div>
+        <div class="col col--ready"><h2>Abholbereit <span id="n3">0</span></h2><div id="colReady"></div></div>
+      </section>
+      <section id="vHistory" hidden>
+        <div class="filters" id="filters">
+          <button class="on" data-f="all" type="button">Alle</button>
+          <button data-f="picked_up" type="button">Abgeholt</button>
+          <button data-f="cancelled" type="button">Storniert</button>
+        </div>
+        <div id="histList" class="hist"></div>
+      </section>
+      <section id="vMenu" hidden>
+        <p class="kfine">Ausverkaufte Gerichte bleiben sichtbar, können aber nicht mehr bestellt werden. Änderungen gelten sofort.</p>
+        <div id="menuAdmin"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/kitchen.js"></script>
+</body>
+</html>

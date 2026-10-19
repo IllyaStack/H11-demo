@@ -128,3 +128,80 @@ window.H11 = {
     { src: "assets/pizza.jpg", alt: "Heiße Pizza mit Käse" },
   ],
 };
+
+
+// ============================================================
+// DIREKT-BESTELLUNG (Abholung) – Konfiguration
+// ============================================================
+window.H11_ORDERING = {
+  // true  = Demo-Zahlung (KEINE echte Zahlung). Auf false stellen = echte Stripe-Zahlung (Supabase nötig).
+  DEMO_MODE: true,
+
+  // Nur ÖFFENTLICHE Werte eintragen (Supabase → Project Settings → API).
+  // NIEMALS service_role- oder Stripe-Secret-Keys hier eintragen!
+  // Leer lassen = lokaler Demo-Speicher (nur im selben Browser sichtbar).
+  supabase: { url: "", anonKey: "" },
+
+  // Preise sind vorläufige DEMO-Preise (nicht bestätigt). Auf false setzen, sobald der Inhaber Preise bestätigt hat.
+  pricesAreDemo: true,
+
+  currency: "EUR",
+  maxQtyPerLine: 20,
+  localFirstOrderNumber: 142, // Demo: erste Bestellnummer = H142
+};
+
+// ------------------------------------------------------------
+// Katalog (aus der Speisekarte oben abgeleitet).
+// Echte Preise: hier in DEMO_PRICES ändern ODER später in Supabase (menu_items.price).
+// ------------------------------------------------------------
+(function () {
+  const slug = (s) => s.toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
+    .replace(/ç/g, "c").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+  // TEMPORÄRE DEMO-PREISE (€) – nicht bestätigt!
+  const DEMO_PRICES = {
+    byCategory: { menues: 11.9, wraps: 8.5, sandwiches: 7.5, lahmacun: 6.5, pizza: 9.5, grillteller: 12.9,
+      boxbowl: 10.9, salate: 9.9, beilagen: 3.9, desserts: 4.5, drinks: 2.9 },
+    byName: { "Rind Kebab Menü": 12.9, "Lahmacun 1 Stk.": 3.9, "Pizza Quattro Formaggi": 10.5, "Pizza H11 Mix": 10.9,
+      "Milchreis": 3.9, "Coca-Cola 0,5 l": 3.5, "Red Bull Energy Drink 250 ml": 3.5, "Ayran 0,25 l": 2.5 },
+  };
+
+  // Bilder (vorläufige Platzhalterfotos)
+  const IMAGES = { wraps: "assets/dueruem.jpg", sandwiches: "assets/hero.jpg", grillteller: "assets/koefte.jpg",
+    pizza: "assets/pizza.jpg", beilagen: "assets/fries.jpg" };
+
+  // DEMO-BEISPIEL-Optionen (nicht bestätigt!) – leicht entfernbar: Funktion einfach [] zurückgeben lassen.
+  const optionGroups = (catId, it) => {
+    if ((catId === "wraps" || catId === "sandwiches") && !/falafel/i.test(it.name)) {
+      return [{ name: "Extras (Demo-Beispiel)", required: false, min: 0, max: 2,
+        options: [["Ohne Zwiebeln", 0], ["Extra Fleisch", 2.0]] }];
+    }
+    if (catId === "pizza") {
+      return [{ name: "Extras (Demo-Beispiel)", required: false, min: 0, max: 1, options: [["Extra Käse", 1.0]] }];
+    }
+    return [];
+  };
+
+  const categories = [], items = [], byId = {}, byName = {};
+  window.H11.menu.forEach((c, ci) => {
+    categories.push({ id: c.id, name: c.label, slug: c.id, sort_order: ci });
+    c.items.forEach((it, ii) => {
+      let id = slug(it.name); while (byId[id]) id += "-2";
+      it.id = id;
+      it.category = c.id;
+      it.price = DEMO_PRICES.byName[it.name] ?? DEMO_PRICES.byCategory[c.id];
+      it.displayPrice = it.displayPrice || null; // optionaler Anzeigetext, z. B. "ab € 8,90"
+      it.image = IMAGES[c.id] || null;
+      it.active = true;
+      it.sold_out = false;
+      it.sort_order = ii;
+      it.groups = optionGroups(c.id, it).map((g, gi) => {
+        const gid = `${id}--${slug(g.name)}`;
+        return { id: gid, name: g.name, required: g.required, min: g.min, max: g.max, sort_order: gi,
+          options: g.options.map(([n, d], oi) => ({ id: `${gid}--${slug(n)}`, name: n, delta: d, sort_order: oi })) };
+      });
+      items.push(it); byId[id] = it; byName[it.name] = it;
+    });
+  });
+  window.H11.catalog = { categories, items, byId, byName };
+})();
