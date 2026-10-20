@@ -346,7 +346,8 @@
     }));
     try {
       await A.placeDemoOrder({
-        customer: { name: "Test", phone: "", email: "", note: "Ohne Zwiebeln" },
+        note: "Ohne Zwiebeln",
+        customer: { note: "Ohne Zwiebeln" },
         items,
       });
     } catch (e) {

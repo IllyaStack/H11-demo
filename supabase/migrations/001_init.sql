@@ -82,7 +82,7 @@ create table if not exists public.orders (
   public_order_number text not null,                       -- z. B. "H142" (täglich neu gezählt)
   order_day date not null default ((now() at time zone 'Europe/Vienna')::date),
   tracking_token uuid not null default gen_random_uuid() unique,  -- geheimer Link-Token für den Kunden
-  customer_name text not null,
+  customer_name text,
   customer_phone text,
   customer_email text,
   customer_note text,
@@ -140,7 +140,7 @@ drop trigger if exists orders_status_ts on public.orders;
 create trigger orders_status_ts before update on public.orders
   for each row execute function public.orders_status_timestamps();
 
--- ---------- Bestellnummer: H101, H102 … (pro Tag, Wien) ----------
+-- ---------- Bestellnummer: H11-101, H11-102 … (pro Tag, Wien) ----------
 create or replace function public.next_order_number(p_day date) returns text
 language plpgsql security definer set search_path = public as $$
 declare v int;
@@ -148,7 +148,7 @@ begin
   insert into order_counters(day, n) values (p_day, 1)
   on conflict (day) do update set n = order_counters.n + 1
   returning n into v;
-  return 'H' || (100 + v)::text;
+  return 'H11-' || (100 + v)::text;
 end $$;
 
 -- ---------- Kernfunktion: Warenkorb serverseitig prüfen + Bestellung anlegen ----------
@@ -172,8 +172,8 @@ begin
   v_name  := btrim(coalesce(payload->'customer'->>'name', ''));
   v_phone := btrim(coalesce(payload->'customer'->>'phone', ''));
   v_email := btrim(coalesce(payload->'customer'->>'email', ''));
-  v_note  := btrim(coalesce(payload->'customer'->>'note', ''));
-  if length(v_name) < 1 or length(v_name) > 60 then raise exception 'invalid_input:name'; end if;
+  v_note  := btrim(coalesce(payload->>'note', payload->'customer'->>'note', ''));
+  if length(v_name) > 60 then raise exception 'invalid_input:name'; end if;
   if length(v_phone) > 30 or length(v_note) > 300 then raise exception 'invalid_input:text'; end if;
   if length(v_email) > 120 or (v_email <> '' and v_email !~ '^\S+@\S+\.\S+$') then raise exception 'invalid_input:email'; end if;
   if jsonb_typeof(payload->'items') <> 'array' or jsonb_array_length(payload->'items') not between 1 and 30 then
@@ -216,7 +216,7 @@ begin
 
   insert into orders (public_order_number, order_day, customer_name, customer_phone, customer_email, customer_note,
                       subtotal, total, payment_status, is_demo, paid_at)
-  values (next_order_number(v_day), v_day, v_name, nullif(v_phone, ''), nullif(v_email, ''), nullif(v_note, ''),
+  values (next_order_number(v_day), v_day, nullif(v_name, ''), nullif(v_phone, ''), nullif(v_email, ''), nullif(v_note, ''),
           v_sub, v_sub, case when p_paid then 'paid' else 'pending' end, p_demo, case when p_paid then now() end)
   returning * into v_order;
 

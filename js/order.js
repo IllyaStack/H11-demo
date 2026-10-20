@@ -14,6 +14,7 @@
     return `<div class="panel"><h2>Deine Bestellung</h2><ul>${(o.items || []).map((i) => `<li><b>${i.quantity}×</b><span>${esc(i.name)}${
       (i.selected_options || []).length ? `<small>${i.selected_options.map((x) => esc(x.name)).join(", ")}</small>` : ""}${
       i.note ? `<small>Anmerkung: ${esc(i.note)}</small>` : ""}</span></li>`).join("")}</ul>
+      ${o.customer_note ? `<p class="fine">Anmerkung zur Bestellung: ${esc(o.customer_note)}</p>` : ""}
       <p><b>Gesamt: ${euro(o.total)}</b></p></div>`;
   }
 
@@ -52,7 +53,8 @@
     if (st === "picked_up") headline = `<p class="big">Abgeholt – guten Appetit!</p>`;
     if (st === "cancelled") headline = `<p class="big">Bestellung storniert</p><p>Bitte wende dich direkt an das Restaurant.</p>${addr}`;
 
-    box.innerHTML = `<p class="eyebrow eyebrow--dark">Danke, ${esc(o.customer_name)}!</p>
+    const hasName = o.customer_name && o.customer_name !== "Abholung";
+    box.innerHTML = `<p class="eyebrow eyebrow--dark">${hasName ? `Danke, ${esc(o.customer_name)}!` : "Vielen Dank!"}</p>
       <h1>Bestellung bestätigt</h1><div class="num" aria-label="Abholnummer">${esc(o.public_order_number)}</div>
       ${headline}${stepsHtml}
       ${st !== "ready" && st !== "cancelled" && st !== "picked_up" ? `<div class="panel"><h2>Abholung</h2>${addr}<p class="fine">Nur Abholung im Restaurant. Nenne bei der Abholung deine Nummer ${esc(o.public_order_number)}.</p></div>` : ""}

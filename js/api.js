@@ -135,11 +135,9 @@
     function validate(payload, db) {
       if (!db.settings.ordering_enabled) throw err("ordering_paused");
       const c = payload.customer || {};
-      const name = String(c.name || "").trim() || "Abholung";
-      if (name.length > 60) throw err("invalid_input", "name");
-      if (String(c.email || "").length > 120 || (c.email && !String(c.email).includes("@"))) {
-        throw err("invalid_input", "email");
-      }
+      const name = String(c.name || "").trim() || null;
+      const note = String(payload.note != null ? payload.note : c.note || "").trim();
+      if (note.length > 300) throw err("invalid_input", "text");
       if (!Array.isArray(payload.items) || !payload.items.length || payload.items.length > 30) {
         throw err("invalid_input", "items");
       }
@@ -234,10 +232,10 @@
           id: rid(),
           public_order_number: "H11-" + db.counter,
           tracking_token: rid(),
-          customer_name: v.name,
-          customer_phone: String(c.phone || "").slice(0, 30),
-          customer_email: String(c.email || "").slice(0, 120),
-          customer_note: note,
+          customer_name: v.name || null,
+          customer_phone: String(c.phone || "").trim().slice(0, 30) || null,
+          customer_email: String(c.email || "").trim().slice(0, 120) || null,
+          customer_note: note || null,
           subtotal: v.subtotal,
           total: v.subtotal,
           currency: "eur",

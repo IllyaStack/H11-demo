@@ -41,7 +41,8 @@ alter table public.staff_users
   add column if not exists created_at timestamptz not null default now();
 
 alter table public.orders
-  alter column customer_name set default 'Abholung';
+  alter column customer_name drop not null,
+  alter column customer_name drop default;
 
 -- ---------- 2. Bestellnummer im Format H11-101 ----------
 create or replace function public.next_order_number(p_day date) returns text
@@ -74,7 +75,7 @@ begin
     raise exception 'ordering_paused';
   end if;
 
-  v_name  := coalesce(nullif(btrim(coalesce(payload->'customer'->>'name', '')), ''), 'Abholung');
+  v_name  := btrim(coalesce(payload->'customer'->>'name', ''));
   v_phone := btrim(coalesce(payload->'customer'->>'phone', ''));
   v_email := btrim(coalesce(payload->'customer'->>'email', ''));
   v_note  := btrim(coalesce(payload->>'note', payload->'customer'->>'note', ''));
@@ -121,7 +122,7 @@ begin
 
   insert into orders (public_order_number, order_day, customer_name, customer_phone, customer_email, customer_note,
                       subtotal, total, payment_status, is_demo, paid_at)
-  values (next_order_number(v_day), v_day, v_name, nullif(v_phone, ''), nullif(v_email, ''), nullif(v_note, ''),
+  values (next_order_number(v_day), v_day, nullif(v_name, ''), nullif(v_phone, ''), nullif(v_email, ''), nullif(v_note, ''),
           v_sub, v_sub, case when p_paid then 'paid' else 'pending' end, p_demo, case when p_paid then now() end)
   returning * into v_order;
 

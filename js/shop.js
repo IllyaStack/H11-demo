@@ -116,7 +116,7 @@
     <div class="drawer__b"></div><footer class="drawer__f"></footer></aside>`;
   document.body.appendChild(ov);
   const drB = $(".drawer__b", ov), drF = $(".drawer__f", ov), drT = $("#drT", ov), back = $(".back", ov);
-  let view = "cart"; let cust = { name: "", phone: "", email: "", note: "" }; let msg = ""; let busy = false;
+  let view = "cart"; let cust = { note: "" }; let msg = ""; let busy = false;
   const drawerOpen = () => !ov.hidden;
 
   ov.addEventListener("click", (e) => { if (e.target === ov || e.target.closest(".x")) closeCart(); });
@@ -177,11 +177,8 @@
       <div class="pickup"><b>Nur Abholung im Restaurant</b><span>H11 Neubau<br>Neubaugasse 9<br>1070 Wien</span></div>
       ${msg ? `<p class="err" role="alert">${esc(msg)}</p>` : ""}
       <form id="coForm" novalidate>
-        <label class="fld">Name *<input id="cName" name="name" required maxlength="60" autocomplete="given-name" value="${esc(cust.name)}"></label>
-        <label class="fld">Telefonnummer (optional)<input id="cPhone" name="phone" type="tel" maxlength="30" autocomplete="tel" inputmode="tel" value="${esc(cust.phone)}"></label>
-        <label class="fld">E-Mail (optional)<input id="cMail" name="email" type="email" maxlength="120" autocomplete="email" value="${esc(cust.email)}"></label>
         <label class="fld">Anmerkung zur Bestellung<textarea id="cNote" name="note" rows="2" maxlength="300" placeholder="z. B. Ohne Zwiebeln">${esc(cust.note)}</textarea></label>
-        <p class="fine">Wir speichern nur, was für deine Bestellung nötig ist. Telefon und E-Mail sind freiwillig.</p>
+        <p class="fine">Keine Registrierung erforderlich.</p>
       </form>
       <h4 class="sub">Deine Bestellung</h4>
       <ul class="lines lines--ro">${lines.map((l) => lineHtml(l, false)).join("")}</ul>${demoNote()}`;
@@ -189,9 +186,8 @@
     const form = $("#coForm", drB);
     form.onsubmit = async (e) => {
       e.preventDefault(); if (busy) return;
-      cust = { name: $("#cName").value.trim(), phone: $("#cPhone").value.trim(), email: $("#cMail").value.trim(), note: $("#cNote").value.trim() };
-      if (!cust.name) { msg = "Bitte gib deinen Namen an."; render(); $("#cName").focus(); return; }
-      if (cust.email && !/^\S+@\S+\.\S+$/.test(cust.email)) { msg = "Bitte prüfe deine E-Mail-Adresse."; render(); return; }
+      const note = ($("#cNote") ? $("#cNote").value : "").trim().slice(0, 300);
+      cust = { note };
       if (!Cart.count()) { msg = "Dein Warenkorb ist leer."; view = "cart"; render(); return; }
       if (!canOrder()) { msg = blockedMsg(); render(); return; }
       if (Cart.priced().some((l) => !l.item.active || l.item.sold_out)) { view = "cart"; render(); return; }
@@ -199,7 +195,7 @@
       // Echtmodus: Stripe Checkout über Edge Function (Server prüft & berechnet alles neu)
       busy = true; render();
       try {
-        const res = await A.createCheckout({ customer: cust, items: Cart.payloadItems() });
+        const res = await A.createCheckout({ note, customer: { note }, items: Cart.payloadItems() });
         if (!res || !res.url) throw new Error("network");
         window.location.href = res.url;
       } catch (e2) { busy = false; msg = A.humanError(e2); render(); }
@@ -224,7 +220,7 @@
     $("#payOk", drF).onclick = async () => {
       busy = true; render();
       try {
-        const r = await A.placeDemoOrder({ customer: cust, items: Cart.payloadItems() });
+        const r = await A.placeDemoOrder({ note: cust.note, customer: cust, items: Cart.payloadItems() });
         Cart.clear();
         location.href = `order.html?t=${encodeURIComponent(r.tracking_token)}`;
       } catch (e) {
