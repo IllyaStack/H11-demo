@@ -192,3 +192,37 @@ set demo_mode = false
 where id = 1;
 ```
 Und setze in [`config.js`](config.js) `DEMO_MODE: false`.
+
+---
+
+## 8. Echte Produktbilder & Speisekarten-Synchronisation (`digitalmenu`)
+
+Die Website lädt zur Laufzeit **niemals** Daten oder Bilder von der externen Seite `https://h11doner-pizza.at/digitalmenu`. Stattdessen werden alle Produktdaten und Originalfotos einmalig extrahiert, lokal im Projekt gespeichert und in Supabase hinterlegt.
+
+### Wie die Quelle analysiert und extrahiert wurde
+1. **Strukturierte Quelle statt Screenshot-Scraping:** Im HTML-Quelltext von `https://h11doner-pizza.at/digitalmenu` befindet sich ein eingebettetes JavaScript-Objekt `const menuData = { ... }` sowie `const SECTION_ORDER = [...]` und das deutsche Sprachwörterbuch `sec: { suppen: "Suppen", ... }`.
+2. **Direkte 1:1-Zuordnung:** Jeder Eintrag in `menuData[<kategorie>].items` enthält `name.de`, `desc.de`, `price` (in EUR) und `img` (direkte CDN-URL des Original-Produktfotos im `.webp`- oder `.jpg`-Format bzw. ein `data:image/svg+xml`-Platzhalter bei den 6 Artikeln ohne Foto).
+3. **Deterministische Dateinamen nach Produkt-Slug:** Jedes echte Produktbild wird unter seinem bereinigten Slug in [`assets/menu/`](assets/menu) abgelegt, z. B.:
+   - `assets/menu/linsensuppe.webp`
+   - `assets/menu/patscha-suppe.webp`
+   - `assets/menu/huehnersuppe.jpg`
+   - `assets/menu/chicken-doener-dueruem.webp`
+   - `assets/menu/pizza-h11-mix.webp`
+4. **Fehlende Quellbilder (6 von 61 Artikeln):** Für Artikel ohne Foto in der Quelle (`Chicken-Sandwich-Menü`, `Beef-Sandwich-Menü`, `Tagesmenü`, `Reis`, `Pago 0,25l`, `Latte Macchiato`) bleibt `image_url = null`. Im Menü wird dafür ein dezenter `H11`-Platzhalter in identischer Thumbnail-Größe angezeigt (keine KI-Bilder).
+
+### Import / Update später erneut ausführen
+Wenn das Restaurant Preise, Beschreibungen oder Produktfotos in der digitalen Speisekarte ändert:
+
+```bash
+# 1. Vorschau (Dry-Run): zeigt nur den Diff zur bisherigen data/h11-menu.json
+node scripts/import-h11-digitalmenu-images.mjs --dry-run
+
+# 2. Bilder herunterladen + data/h11-menu.json & supabase/seed.sql aktualisieren
+node scripts/import-h11-digitalmenu-images.mjs
+
+# 3. Optional direkt per RPC import_menu in Supabase einspielen (überschreibt NIEMALS sold_out!)
+SUPABASE_URL=https://frjjmhkkchmwfgwolqcd.supabase.co \
+SUPABASE_SECRET_KEY=DEIN_SUPABASE_SECRET_KEY \
+node scripts/import-h11-digitalmenu-images.mjs --apply
+```
+Alternativ kann nach Schritt 2 einfach die neu generierte [`supabase/seed.sql`](supabase/seed.sql) im Supabase SQL Editor ausgeführt werden.

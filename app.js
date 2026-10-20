@@ -25,7 +25,7 @@
         const orderable = it && hasPrice(it);
         return el(`
       <article class="card reveal in">
-        <img src="${esc(f.img || (it && it.image) || "assets/hero.jpg")}" alt="${esc(f.name)}" loading="lazy">
+        <img src="${esc((it && it.image) || f.img || "assets/hero.jpg")}" alt="${esc(f.name)}" loading="lazy" decoding="async">
         <div class="card__body">
           <h3>${esc(f.name)}</h3><p>${esc((it && it.desc) || f.desc)}</p>
           <div class="card__row">
@@ -60,7 +60,10 @@
       .map((i) => {
         const out = soldOut(i);
         const orderable = hasPrice(i);
-        return `<li class="${out ? "mi--out" : ""}"><div><h3>${esc(i.name)}</h3><p>${esc(i.desc)}</p></div>
+        const thumb = i.image
+          ? `<img class="mi__img" src="${esc(i.image)}" alt="${esc(i.name)}" loading="lazy" decoding="async">`
+          : `<div class="mi__img mi__img--ph" aria-hidden="true"><span>H11</span></div>`;
+        return `<li class="${out ? "mi--out" : ""}">${thumb}<div class="mi__body"><h3>${esc(i.name)}</h3><p>${esc(i.desc)}</p></div>
         <div class="mi__r"><span class="pr">${out ? "Heute ausverkauft" : priceLabel(i)}</span>
         ${
           orderable

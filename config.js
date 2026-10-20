@@ -3,8 +3,8 @@
 // Alle restaurant-spezifischen Daten werden NUR hier gepflegt.
 // ============================================================
 
-// Hilfsfunktion für Menüeinträge. price: Zahl (z. B. 7.9) oder null → "Preis folgt"
-const item = (name, desc, price = null) => ({ name, desc, price });
+// Hilfsfunktion für Menüeinträge: item(id, name, desc, price, image)
+const item = (id, name, desc, price = null, image = null) => ({ id, name, desc, price, image });
 
 window.H11 = {
   name: "H11 Neubau",
@@ -33,102 +33,111 @@ window.H11 = {
   mapQuery: "Neubaugasse 9, 1070 Wien",
   routeQuery: "H11 Neubau, Neubaugasse 9, 1070 Wien",
 
-  // Favorites: price = null → "Preis folgt"
+  // Favorites: echte Produktfotos aus der digitalen Speisekarte von H11
   favorites: [
-    { name: "Chicken Döner Dürüm", desc: "Gegrilltes Hühner-Dönerfleisch, frischer Salat und Tomaten im Dürüm.", img: "assets/dueruem.jpg", price: null },
-    { name: "Beef Döner Sandwich", desc: "Rind-Dönerfleisch mit Salat und Zwiebeln im knusprigen Brot.", img: "assets/hero.jpg", price: null },
-    { name: "Köfte Teller", desc: "Gegrillte Köfte mit Salat, Pommes und Pita-Brot.", img: "assets/koefte.jpg", price: null },
-    { name: "Pizza H11 Mix", desc: "Schinken, Salami, Paprika, Oliven, Mais und Mozzarella.", img: "assets/pizza.jpg", price: null },
+    { name: "Chicken Döner Dürüm", desc: "Zartes Hühnchen mit knackigem Gemüse im Fladenbrot.", img: "assets/menu/chicken-doener-dueruem.webp", price: 7.5 },
+    { name: "Beef Döner Sandwich", desc: "Kräftiges Rindfleisch im knusprigen Fladenbrot.", img: "assets/menu/beef-doener-sandwich.webp", price: 7.9 },
+    { name: "Köfte Teller", desc: "Hausgemachte Köfte mit Pommes – deftig und sättigend.", img: "assets/menu/koefte-teller.webp", price: 16.9 },
+    { name: "Pizza H11 Mix", desc: "Haus-Spezialität mit buntem Belag.", img: "assets/menu/pizza-h11-mix.webp", price: 14.9 },
   ],
 
-  // Speisekarte – aktuelle Auswahl (vorläufig, Quelle: öffentliche Foodora-Listung).
-  // Finale Karte, Preise und Zutaten bestätigt der Inhaber.
+  // Speisekarte – echte H11-Daten & Produktfotos aus https://h11doner-pizza.at/digitalmenu
   menu: [
-    { id: "menues", label: "Menüs", items: [
-      item("Rind Kebab Menü", "Rind-Döner im knusprigen Brot mit Salat, Tomaten, Zwiebeln und cremiger Sauce. Dazu Pommes und ein 0,33-l-Getränk nach Wahl."),
-      item("Hühner Sandwich Menü", "Hühner-Döner-Sandwich mit frischem Salat und Sauce, kombiniert mit Pommes und einem 0,33-l-Getränk nach Wahl."),
+    { id: "suppen", label: "Suppen", items: [
+      item("linsensuppe", "Linsensuppe", "Cremige türkische Linsensuppe mit Gewürzen und Gemüse.", 5.9, "assets/menu/linsensuppe.webp"),
+      item("patscha-suppe", "Patscha Suppe", "Traditionelle Spezialität – kräftig und sättigend.", 6.9, "assets/menu/patscha-suppe.webp"),
+      item("huehnersuppe", "Hühnersuppe", "Klare Hühnerbrühe mit zartem Fleisch – wärmend und leicht.", 6.9, "assets/menu/huehnersuppe.jpg"),
     ]},
-    { id: "wraps", label: "Wraps", items: [
-      item("Chicken Döner Dürüm", "Gegrilltes Hühner-Dönerfleisch mit frischem Salat und Tomaten, eingerollt im Dürüm-Fladenbrot."),
-      item("Falafel Dürüm", "Knusprige Falafel mit Hummus und frischem Salat im Dürüm-Fladenbrot."),
-      item("Beef Döner Dürüm", "Gegrilltes Rind-Dönerfleisch mit frischem Salat und Tomaten im Dürüm."),
-      item("Köfte Dürüm", "Gegrillte Köfte mit frischem Salat und Tomaten im weichen Dürüm-Fladenbrot."),
+    { id: "wraps", label: "Wraps (Dürüm)", items: [
+      item("beef-doener-dueruem", "Beef Döner Dürüm", "Saftiges Rindfleisch, frischer Salat und würzige Soße.", 8.9, "assets/menu/beef-doener-dueruem.webp"),
+      item("chicken-doener-dueruem", "Chicken Döner Dürüm", "Zartes Hühnchen mit knackigem Gemüse im Fladenbrot.", 7.5, "assets/menu/chicken-doener-dueruem.webp"),
+      item("koefte-dueruem", "Köfte Dürüm", "Gegrillte Köfte mit Salat und Soße im Dürüm.", 8.9, "assets/menu/koefte-dueruem.webp"),
+      item("falafel-dueruem", "Falafel Dürüm", "Knusprige Falafel, Hummus, Salat – 100 % vegetarisch.", 7.5, "assets/menu/falafel-dueruem.webp"),
     ]},
     { id: "sandwiches", label: "Sandwiches", items: [
-      item("Beef Döner Sandwich", "Gegrilltes Rind-Dönerfleisch mit frischem Salat und Zwiebeln im Brot."),
-      item("Chicken Döner Sandwich", "Hühner-Dönerfleisch mit Salat und frischen Tomaten im Sandwich."),
-      item("Köfte Sandwich", "Gegrillte Köfte mit frischem Salat und Zwiebeln im Brot."),
-      item("Falafel Sandwich", "Knusprige Falafel mit Hummus und frischem Salat im Sandwich."),
+      item("beef-doener-sandwich", "Beef Döner Sandwich", "Kräftiges Rindfleisch im knusprigen Fladenbrot.", 7.9, "assets/menu/beef-doener-sandwich.webp"),
+      item("chicken-doener-sandwich", "Chicken Döner Sandwich", "Frisches Hühnchen, Salat und hausgemachte Soße.", 6.9, "assets/menu/chicken-doener-sandwich.webp"),
+      item("koefte-sandwich", "Köfte Sandwich", "Würzige Köfte mit Zwiebeln und frischem Gemüse.", 7.9, "assets/menu/koefte-sandwich.webp"),
+      item("falafel-sandwich", "Falafel Sandwich", "Hausgemachte Falafel mit Salat und Tahini-Soße.", 6.9, "assets/menu/falafel-sandwich.webp"),
     ]},
-    { id: "lahmacun", label: "Lahmacun", items: [
-      item("Lahmacun Portion", "Knuspriger Teig mit würzigem Rindfleisch, Tomaten, Paprika und frischen Kräutern."),
-      item("Lahmacun 1 Stk.", "Ein Stück klassisch knuspriger Lahmacun."),
+    { id: "sandwichmenus", label: "Menüs", items: [
+      item("chicken-sandwich-menue", "Chicken-Sandwich-Menü", "Inkl. Pommes & Getränk.", 12.9, null),
+      item("beef-sandwich-menue", "Beef-Sandwich-Menü", "Inkl. Pommes & Getränk.", 13.9, null),
+    ]},
+    { id: "lahmacun", label: "Lahmacun Menü", items: [
+      item("lahmacun-1-stk", "Lahmacun 1 Stk.", "Dünner Fladen mit würzigem Hackfleischbelag.", 6.9, "assets/menu/lahmacun-1-stk.webp"),
+      item("lahmacun-portion", "Lahmacun Portion", "Mit Beilage und Soße – reichhaltig und frisch.", 12.9, "assets/menu/lahmacun-portion.webp"),
     ]},
     { id: "pizza", label: "Pizza", items: [
-      item("Pizza Margherita", "Tomatensauce, Mozzarella und frisches Basilikum."),
-      item("Pizza Funghi", "Tomatensauce, Mozzarella und frische Champignons."),
-      item("Pizza al Tonno", "Thunfisch, Zwiebeln, Tomatensauce und Mozzarella."),
-      item("Pizza Salami", "Salami, Tomatensauce und Mozzarella."),
-      item("Pizza Cardinale", "Schinken, Tomatensauce und Mozzarella."),
-      item("Pizza H11 Mix", "Schinken, Salami, Paprika, Oliven und Mais auf Tomatensauce mit Mozzarella."),
-      item("Pizza Quattro Formaggi", "Mozzarella, Parmesan, Gorgonzola und Emmentaler."),
-      item("Pizza Vegetarisch", "Paprika, Zucchini, Champignons und Oliven auf Tomatensauce mit Mozzarella."),
-      item("Beef Döner Pizza", "Rind-Dönerfleisch mit Zwiebeln, Paprika und Mozzarella."),
-      item("Chicken Döner Pizza", "Hühner-Dönerfleisch mit Tomaten, Zwiebeln, Paprika und Mozzarella."),
+      item("pizza-margherita", "Pizza Margherita", "Tomatensoße, Mozzarella und Basilikum – der Klassiker.", 9.9, "assets/menu/pizza-margherita.webp"),
+      item("pizza-funghi", "Pizza Funghi", "Mit frischen Champignons und zartem Käse.", 10.9, "assets/menu/pizza-funghi.webp"),
+      item("pizza-al-tonno", "Pizza al Tonno", "Mit saftigem Thunfisch und roten Zwiebeln.", 10.9, "assets/menu/pizza-al-tonno.webp"),
+      item("pizza-salami", "Pizza Salami", "Knuspriger Boden mit würziger Rindersalami.", 10.9, "assets/menu/pizza-salami.webp"),
+      item("pizza-cardinale", "Pizza Cardinale", "Mit feinem Putenschinken und geschmolzenem Käse.", 10.9, "assets/menu/pizza-cardinale.webp"),
+      item("pizza-h11-mix", "Pizza H11 Mix", "Haus-Spezialität mit buntem Belag.", 14.9, "assets/menu/pizza-h11-mix.webp"),
+      item("pizza-quattro-formaggi", "Pizza Quattro Formaggi", "Vier Sorten Käse – cremig und intensiv.", 12.9, "assets/menu/pizza-quattro-formaggi.webp"),
+      item("pizza-vegetarisch", "Pizza Vegetarisch", "Frisches Marktgemüse auf knusprigem Teig.", 10.9, "assets/menu/pizza-vegetarisch.webp"),
+      item("beef-doener-pizza", "Beef Döner Pizza", "Dönerfleisch, Gemüse und Käse – Döner trifft Pizza.", 15.9, "assets/menu/beef-doener-pizza.webp"),
+      item("chicken-doener-pizza", "Chicken Döner Pizza", "Mit Hühnchen, Gemüse und Käse – lecker und herzhaft.", 13.9, "assets/menu/chicken-doener-pizza.webp"),
     ]},
-    { id: "grillteller", label: "Grillteller", items: [
-      item("Köfte Teller", "Gegrillte Köfte mit frischem Salat, Pommes und gegrilltem Pita-Brot."),
-      item("Chicken Döner Teller", "Gegrilltes Hühner-Dönerfleisch mit Salat, Basmatireis und gegrilltem Pita-Brot."),
-      item("Beef Döner Teller", "Gegrilltes Rind-Dönerfleisch mit Salat, Basmatireis und gegrilltem Pita-Brot."),
+    { id: "grill", label: "Grillteller", items: [
+      item("koefte-teller", "Köfte Teller", "Hausgemachte Köfte mit Pommes – deftig und sättigend.", 16.9, "assets/menu/koefte-teller.webp"),
+      item("chicken-doener-teller", "Chicken Döner Teller", "Hühnchen Döner mit Reis – saftig und lecker.", 14.9, "assets/menu/chicken-doener-teller.webp"),
+      item("beef-doener-teller", "Beef Döner Teller", "Rindfleisch Döner mit Reis – klassisch und herzhaft.", 16.9, "assets/menu/beef-doener-teller.webp"),
+      item("iskender-kebap", "Iskender Kebap", "Mit Butter und typischer Soße – vom Grill.", 17.9, "assets/menu/iskender-kebap.webp"),
     ]},
-    { id: "boxbowl", label: "Box & Bowl", items: [
-      item("Beef Box", "Rind-Dönerfleisch mit frischem Salat und Gemüse, dazu Pommes oder Reis und Sauce nach Wahl."),
-      item("Beef Bowl", "Rind-Dönerfleisch mit Salat und Gemüse, kombiniert mit Pommes oder Reis und Sauce nach Wahl."),
-      item("Chicken Box", "Hühner-Dönerfleisch mit frischem Salat und Gemüse, dazu Pommes oder Reis und Sauce nach Wahl."),
-      item("Chicken Bowl", "Dönerfleisch mit frischem Salat und Gemüse, dazu Pommes oder Reis und Sauce nach Wahl."),
-      item("Falafel Box", "Knusprige Falafel mit Salat und Gemüse, dazu Pommes oder Reis und Sauce nach Wahl."),
-      item("Falafel Bowl", "Knusprige Falafel mit frischem Salat und Gemüse, dazu Reis und Sauce nach Wahl."),
-      item("Köfte Box", "Gegrillte Köfte mit Salat und Gemüse, dazu Pommes oder Reis und Sauce nach Wahl."),
-      item("Köfte Bowl", "Gegrillte Köfte mit Salat und Gemüse, dazu Reis und Sauce nach Wahl."),
-    ]},
-    { id: "salate", label: "Salate", items: [
-      item("Halloumi-Käse-Salat", "Saisonaler gemischter Salat mit gegrilltem Halloumi und Olivenöl."),
-      item("Hähnchen-Streifen-Salat", "Gemischter saisonaler Salat mit Hähnchenstreifen, knusprigem Sesambrot und Olivenöl."),
-      item("Köfte-Streifen-Salat", "Saisonaler gemischter Salat mit gegrillten Rind-Köfte-Streifen, Sesambrot und Olivenöl."),
-      item("Feta-Käse-Salat", "Gemischter saisonaler Salat mit gebackenem Feta, Sesambrot und Olivenöl."),
+    { id: "tagesmenus", label: "Tagesmenüs", items: [
+      item("tagesmenue", "Tagesmenü", "Täglich wechselndes Gericht – frisch zubereitet.", 14.9, null),
     ]},
     { id: "beilagen", label: "Beilagen", items: [
-      item("Pommes Frites", "Knusprig gebackene Pommes Frites."),
+      item("tzatziki", "Tzatziki", "Frischer Joghurt-Dip mit Gurke und Knoblauch.", 4.9, "assets/menu/tzatziki.webp"),
+      item("hummus", "Hummus", "Cremiger Kichererbsen-Dip – vegetarisch und lecker.", 5.9, "assets/menu/hummus.webp"),
+      item("pommes-frites", "Pommes Frites", "Knusprig und heiß – klassisch als Beilage.", 4.5, "assets/menu/pommes-frites.webp"),
+      item("reis", "Reis", "Locker gedämpfter Reis – die klassische Beilage.", 3.9, null),
     ]},
     { id: "desserts", label: "Desserts", items: [
-      item("Magnolia Schoko", "Cremiger Magnolia-Pudding mit Schokolade und frischen Früchten."),
-      item("Magnolia Lotus", "Cremiger Magnolia-Pudding mit Lotus-Keks und frischen Früchten."),
-      item("Magnolia Oreo", "Cremiger Magnolia-Pudding mit Oreo und frischen Früchten."),
-      item("Baklava", "Knuspriges türkisches Gebäck mit Pistazienfüllung."),
-      item("Havuç Baklava", "Karottenförmige Baklava mit Pistazienfüllung."),
-      item("Milchreis", "Cremiger, leicht gesüßter Milchreis."),
+      item("milchreis", "Milchreis", "Cremig und süß – traditioneller Nachtisch.", 5.9, "assets/menu/milchreis.webp"),
+      item("magnolia-schoko", "Magnolia Schoko", "Schichtdessert mit Schokolade, Früchten und Creme.", 5.9, "assets/menu/magnolia-schoko.webp"),
+      item("magnolia-lotus", "Magnolia Lotus", "Mit karamellisiertem Lotus-Keks und feiner Creme.", 5.9, "assets/menu/magnolia-lotus.webp"),
+      item("magnolia-oreo", "Magnolia Oreo", "Cremiges Dessert mit Oreo-Stückchen.", 5.9, "assets/menu/magnolia-oreo.webp"),
+      item("baklava", "Baklava", "Blätterteig mit Nüssen und Sirup – klassisch süß.", 4.9, "assets/menu/baklava.webp"),
+      item("havuc-baklava", "Havuç Baklava", "Spezialform mit Pistazien – besonders zart.", 4.9, "assets/menu/havuc-baklava.webp"),
+      item("sekerpare", "Şekerpare", "Traditionelles Grießgebäck in süßem Sirup.", 6.9, "assets/menu/sekerpare.webp"),
     ]},
-    { id: "drinks", label: "Getränke", items: [
-      item("Coca-Cola 0,33 l", "Klassische Coca-Cola in der 0,33-l-Dose."),
-      item("Coca-Cola 0,5 l", "Klassische Coca-Cola in der 0,5-l-PET-Flasche."),
-      item("Coca-Cola Zero Zucker 0,33 l", "Zuckerfreie Coca-Cola in der 0,33-l-Dose."),
-      item("Ayran 0,25 l", "Erfrischendes, cremiges Joghurtgetränk."),
-      item("Eistee Pfirsich 0,5 l", "Erfrischender Eistee mit Pfirsichgeschmack."),
-      item("Eistee Pfirsich 0,33 l", "Eistee mit fruchtigem Pfirsichgeschmack."),
-      item("Eistee Zitrone 0,33 l", "Erfrischender Eistee mit Zitronengeschmack."),
-      item("Red Bull Energy Drink 250 ml", "Energy Drink mit Koffein und Taurin."),
+    { id: "getranke", label: "Getränke", items: [
+      item("coca-cola-0-33l", "Coca-Cola 0,33l", "Klassisch erfrischend.", 2.5, "assets/menu/coca-cola-0-33l.webp"),
+      item("coca-cola-0-5l", "Coca-Cola 0,5l", "Die größere Portion Erfrischung.", 2.8, "assets/menu/coca-cola-0-5l.webp"),
+      item("ayran-0-25l", "Ayran 0,25l", "Erfrischendes Joghurtgetränk – leicht gesalzen.", 1.9, "assets/menu/ayran-0-25l.webp"),
+      item("eistee-pfirsich-0-5l", "Eistee Pfirsich 0,5l", "Fruchtig und gekühlt.", 2.8, "assets/menu/eistee-pfirsich-0-5l.webp"),
+      item("eistee-zitrone-0-33l", "Eistee Zitrone 0,33l", "Spritzig mit Zitronennote.", 2.5, "assets/menu/eistee-zitrone-0-33l.webp"),
+      item("coca-cola-zero-0-33l", "Coca-Cola Zero 0,33l", "Voller Geschmack, ohne Zucker.", 2.5, "assets/menu/coca-cola-zero-0-33l.webp"),
+      item("red-bull-250ml", "Red Bull 250ml", "Energy-Drink – belebt Geist und Körper.", 2.9, "assets/menu/red-bull-250ml.webp"),
+      item("beypazari-soda", "Beypazarı Soda", "Natürliches Mineralwasser – prickelnd frisch.", 2.5, "assets/menu/beypazari-soda.jpg"),
+      item("roemerquelle-0-2l", "Römerquelle 0,2l", "Österreichisches Mineralwasser.", 3.4, "assets/menu/roemerquelle-0-2l.jpg"),
+      item("fritz-kola-0-33l", "Fritz-Kola 0,33l", "Kola mit viel Koffein.", 3.6, "assets/menu/fritz-kola-0-33l.jpg"),
+      item("eistee-im-glas-0-33l", "Eistee im Glas 0,33l", "Hausgemacht & gekühlt im Glas serviert.", 3.6, "assets/menu/eistee-im-glas-0-33l.jpg"),
+      item("soda-himbeer-0-33l", "Soda Himbeer 0,33l", "Prickelndes Soda mit fruchtigem Himbeersirup.", 3.5, "assets/menu/soda-himbeer-0-33l.jpg"),
+      item("soda-zitrone-0-33l", "Soda Zitrone 0,33l", "Erfrischendes Soda mit Zitrone.", 3.5, "assets/menu/soda-zitrone-0-33l.jpg"),
+      item("pago-0-25l", "Pago 0,25l", "Fruchtsaft in verschiedenen Sorten.", 2.5, null),
+    ]},
+    { id: "heissgetranke", label: "Heiße Getränke", items: [
+      item("tuerkischer-kaffee", "Türkischer Kaffee", "Kräftig und aromatisch, traditionell zubereitet.", 3.5, "assets/menu/tuerkischer-kaffee.jpg"),
+      item("melange", "Melange", "Wiener Klassiker mit geschäumter Milch.", 4.4, "assets/menu/melange.jpg"),
+      item("cappuccino", "Cappuccino", "Espresso mit feinem Milchschaum.", 4.4, "assets/menu/cappuccino.jpg"),
+      item("espresso-einfach", "Espresso einfach", "Kleiner, kräftiger Espresso.", 3.9, "assets/menu/espresso-einfach.jpg"),
+      item("espresso-doppelt", "Espresso doppelt", "Doppelter Espresso für extra Energie.", 4.9, "assets/menu/espresso-doppelt.jpg"),
+      item("latte-macchiato", "Latte Macchiato", "Geschichteter Milchkaffee, mild und cremig.", 5.9, null),
     ]},
   ],
 
   gallery: [
-    { src: "assets/hero.jpg", alt: "Frischer Döner mit Dampf" },
-    { src: "assets/koefte.jpg", alt: "Köfte Teller mit Reis und Salat" },
-    { src: "assets/fries.jpg", alt: "Knusprige Pommes mit Dips" },
-    { src: "assets/dueruem.jpg", alt: "Chicken Dürüm aufgeschnitten" },
-    { src: "assets/pizza.jpg", alt: "Heiße Pizza mit Käse" },
+    { src: "assets/menu/beef-doener-sandwich.webp", alt: "Beef Döner Sandwich" },
+    { src: "assets/menu/koefte-teller.webp", alt: "Köfte Teller mit Pommes und Salat" },
+    { src: "assets/menu/pommes-frites.webp", alt: "Knusprige Pommes Frites" },
+    { src: "assets/menu/chicken-doener-dueruem.webp", alt: "Chicken Döner Dürüm" },
+    { src: "assets/menu/pizza-h11-mix.webp", alt: "Pizza H11 Mix" },
   ],
 };
-
 
 // ============================================================
 // DIREKT-BESTELLUNG (Abholung) – Konfiguration
@@ -149,8 +158,8 @@ window.H11_ORDERING = {
     anonKey: "sb_publishable_wIXC1hHSUmKEndPRh-EnIQ_-kmP4dve",
   },
 
-  // Wird beim Laden aus Supabase automatisch auf false gesetzt, sobald echte Preise aus menu_items geladen wurden.
-  pricesAreDemo: true,
+  // Echte Preise aus https://h11doner-pizza.at/digitalmenu
+  pricesAreDemo: false,
 
   currency: "EUR",
   maxQtyPerLine: 20,
@@ -158,56 +167,28 @@ window.H11_ORDERING = {
 };
 
 // ------------------------------------------------------------
-// Katalog (aus der Speisekarte oben abgeleitet).
-// Echte Preise: hier in DEMO_PRICES ändern ODER später in Supabase (menu_items.price).
+// Katalog (aus der Speisekarte oben abgeleitet; wird bei aktiver Supabase-Verbindung
+// zusätzlich live aus categories & menu_items synchronisiert).
 // ------------------------------------------------------------
 (function () {
-  const slug = (s) => s.toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
-    .replace(/ç/g, "c").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-
-  // TEMPORÄRE DEMO-PREISE (€) – nicht bestätigt!
-  const DEMO_PRICES = {
-    byCategory: { menues: 11.9, wraps: 8.5, sandwiches: 7.5, lahmacun: 6.5, pizza: 9.5, grillteller: 12.9,
-      boxbowl: 10.9, salate: 9.9, beilagen: 3.9, desserts: 4.5, drinks: 2.9 },
-    byName: { "Rind Kebab Menü": 12.9, "Lahmacun 1 Stk.": 3.9, "Pizza Quattro Formaggi": 10.5, "Pizza H11 Mix": 10.9,
-      "Milchreis": 3.9, "Coca-Cola 0,5 l": 3.5, "Red Bull Energy Drink 250 ml": 3.5, "Ayran 0,25 l": 2.5 },
-  };
-
-  // Bilder (vorläufige Platzhalterfotos)
-  const IMAGES = { wraps: "assets/dueruem.jpg", sandwiches: "assets/hero.jpg", grillteller: "assets/koefte.jpg",
-    pizza: "assets/pizza.jpg", beilagen: "assets/fries.jpg" };
-
-  // DEMO-BEISPIEL-Optionen (nicht bestätigt!) – leicht entfernbar: Funktion einfach [] zurückgeben lassen.
-  const optionGroups = (catId, it) => {
-    if ((catId === "wraps" || catId === "sandwiches") && !/falafel/i.test(it.name)) {
-      return [{ name: "Extras (Demo-Beispiel)", required: false, min: 0, max: 2,
-        options: [["Ohne Zwiebeln", 0], ["Extra Fleisch", 2.0]] }];
-    }
-    if (catId === "pizza") {
-      return [{ name: "Extras (Demo-Beispiel)", required: false, min: 0, max: 1, options: [["Extra Käse", 1.0]] }];
-    }
-    return [];
-  };
-
-  const categories = [], items = [], byId = {}, byName = {};
+  const categories = [],
+    items = [],
+    byId = {},
+    byName = {};
   window.H11.menu.forEach((c, ci) => {
     categories.push({ id: c.id, name: c.label, slug: c.id, sort_order: ci });
     c.items.forEach((it, ii) => {
-      let id = slug(it.name); while (byId[id]) id += "-2";
-      it.id = id;
       it.category = c.id;
-      it.price = DEMO_PRICES.byName[it.name] ?? DEMO_PRICES.byCategory[c.id];
-      it.displayPrice = it.displayPrice || null; // optionaler Anzeigetext, z. B. "ab € 8,90"
-      it.image = IMAGES[c.id] || null;
-      it.active = true;
+      it.price_cents = it.price != null ? Math.round(Number(it.price) * 100) : null;
+      it.displayPrice = it.displayPrice || null;
+      it.active = it.price != null && it.price > 0;
       it.sold_out = false;
       it.sort_order = ii;
-      it.groups = optionGroups(c.id, it).map((g, gi) => {
-        const gid = `${id}--${slug(g.name)}`;
-        return { id: gid, name: g.name, required: g.required, min: g.min, max: g.max, sort_order: gi,
-          options: g.options.map(([n, d], oi) => ({ id: `${gid}--${slug(n)}`, name: n, delta: d, sort_order: oi })) };
-      });
-      items.push(it); byId[id] = it; byName[it.name] = it;
+      it.price_is_demo = false;
+      it.groups = [];
+      items.push(it);
+      byId[it.id] = it;
+      byName[it.name] = it;
     });
   });
   window.H11.catalog = { categories, items, byId, byName };

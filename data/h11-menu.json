@@ -1,7 +1,7 @@
 {
   "source": "https://h11doner-pizza.at/digitalmenu",
-  "imported_at": "2026-10-20T00:10:43.391Z",
-  "image_disclaimer": "Produktbilder dienen ausschließlich als Beispiel. Das tatsächliche Produkt kann optisch leicht abweichen.“",
+  "imported_at": "2026-10-20T08:23:10.130Z",
+  "image_disclaimer": "Produktbilder dienen ausschließlich als Beispiel. Das tatsächliche Produkt kann optisch leicht abweichen.",
   "categories": [
     {
       "id": "suppen",
@@ -75,7 +75,7 @@
       "source_ref": "692b242e2b865e4759b761bc",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242e2b865e4759b761bc.webp"
+      "image_url": "assets/menu/linsensuppe.webp"
     },
     {
       "id": "patscha-suppe",
@@ -87,7 +87,7 @@
       "source_ref": "692b242f1f60a18ac3fd2d05",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242f1f60a18ac3fd2d05.webp"
+      "image_url": "assets/menu/patscha-suppe.webp"
     },
     {
       "id": "huehnersuppe",
@@ -99,7 +99,7 @@
       "source_ref": "6a6c3676a4c8a1a2c399d863",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/6a6c3676a4c8a1a2c399d863.jpg"
+      "image_url": "assets/menu/huehnersuppe.jpg"
     },
     {
       "id": "beef-doener-dueruem",
@@ -111,7 +111,7 @@
       "source_ref": "692b242f96dd5bb6d2d87e96",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242f96dd5bb6d2d87e96.webp"
+      "image_url": "assets/menu/beef-doener-dueruem.webp"
     },
     {
       "id": "chicken-doener-dueruem",
@@ -123,7 +123,7 @@
       "source_ref": "692b242eaaad919b6db6db54",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242eaaad919b6db6db54.webp"
+      "image_url": "assets/menu/chicken-doener-dueruem.webp"
     },
     {
       "id": "koefte-dueruem",
@@ -135,7 +135,7 @@
       "source_ref": "692b242e313bfd459800548d",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/692b242e313bfd459800548d.webp"
+      "image_url": "assets/menu/koefte-dueruem.webp"
     },
     {
       "id": "falafel-dueruem",
@@ -147,7 +147,7 @@
       "source_ref": "692b242eaaad91765ab6db5d",
       "source_order": 3,
       "sort_order": 3,
-      "image_url": "assets/menu/692b242eaaad91765ab6db5d.webp"
+      "image_url": "assets/menu/falafel-dueruem.webp"
     },
     {
       "id": "beef-doener-sandwich",
@@ -159,7 +159,7 @@
       "source_ref": "692b242f2b865e3861b761d0",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242f2b865e3861b761d0.webp"
+      "image_url": "assets/menu/beef-doener-sandwich.webp"
     },
     {
       "id": "chicken-doener-sandwich",
@@ -171,7 +171,7 @@
       "source_ref": "692b242eaaad91255bb6db5c",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242eaaad91255bb6db5c.webp"
+      "image_url": "assets/menu/chicken-doener-sandwich.webp"
     },
     {
       "id": "koefte-sandwich",
@@ -183,7 +183,7 @@
       "source_ref": "692b242e96dd5b424fd87e7d",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/692b242e96dd5b424fd87e7d.webp"
+      "image_url": "assets/menu/koefte-sandwich.webp"
     },
     {
       "id": "falafel-sandwich",
@@ -195,7 +195,7 @@
       "source_ref": "692b242f2b865e7367b761c8",
       "source_order": 3,
       "sort_order": 3,
-      "image_url": "assets/menu/692b242f2b865e7367b761c8.webp"
+      "image_url": "assets/menu/falafel-sandwich.webp"
     },
     {
       "id": "chicken-sandwich-menue",
@@ -203,7 +203,7 @@
       "name": "Chicken-Sandwich-Menü",
       "description": "Chicken-Sandwich mit Pommes und einem Getränk 0,33 l.",
       "price_cents": 1290,
-      "image_source_url": "data:image/svg+xml;charset=UTF-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='200'%20height='200'><rect%20width='200'%20height='200'%20fill='%2316140F'/><rect%20x='0.5'%20y='0.5'%20width='199'%20height='199'%20fill='none'%20stroke='%23ffffff'%20stroke-opacity='0.08'/></svg>",
+      "image_source_url": null,
       "source_ref": null,
       "source_order": 0,
       "sort_order": 0,
@@ -215,7 +215,7 @@
       "name": "Beef-Sandwich-Menü",
       "description": "Beef-Sandwich mit Pommes und einem Getränk 0,33 l.",
       "price_cents": 1390,
-      "image_source_url": "data:image/svg+xml;charset=UTF-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='200'%20height='200'><rect%20width='200'%20height='200'%20fill='%2316140F'/><rect%20x='0.5'%20y='0.5'%20width='199'%20height='199'%20fill='none'%20stroke='%23ffffff'%20stroke-opacity='0.08'/></svg>",
+      "image_source_url": null,
       "source_ref": null,
       "source_order": 1,
       "sort_order": 1,
@@ -231,7 +231,7 @@
       "source_ref": "692b242eaaad915392b6db52",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242eaaad915392b6db52.webp"
+      "image_url": "assets/menu/lahmacun-1-stk.webp"
     },
     {
       "id": "lahmacun-portion",
@@ -243,7 +243,7 @@
       "source_ref": "692b242e96dd5bde4ed87e7f",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242e96dd5bde4ed87e7f.webp"
+      "image_url": "assets/menu/lahmacun-portion.webp"
     },
     {
       "id": "pizza-margherita",
@@ -255,7 +255,7 @@
       "source_ref": "692b242f1f60a1fa7ffd2d02",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242f1f60a1fa7ffd2d02.webp"
+      "image_url": "assets/menu/pizza-margherita.webp"
     },
     {
       "id": "pizza-funghi",
@@ -267,7 +267,7 @@
       "source_ref": "692b242e96dd5b2c01d87e81",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242e96dd5b2c01d87e81.webp"
+      "image_url": "assets/menu/pizza-funghi.webp"
     },
     {
       "id": "pizza-al-tonno",
@@ -279,7 +279,7 @@
       "source_ref": "692b242f1f60a1824dfd2d06",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/692b242f1f60a1824dfd2d06.webp"
+      "image_url": "assets/menu/pizza-al-tonno.webp"
     },
     {
       "id": "pizza-salami",
@@ -291,7 +291,7 @@
       "source_ref": "692b242e96dd5b17aed87e7c",
       "source_order": 3,
       "sort_order": 3,
-      "image_url": "assets/menu/692b242e96dd5b17aed87e7c.webp"
+      "image_url": "assets/menu/pizza-salami.webp"
     },
     {
       "id": "pizza-cardinale",
@@ -303,7 +303,7 @@
       "source_ref": "692b242f96dd5b7237d87e98",
       "source_order": 4,
       "sort_order": 4,
-      "image_url": "assets/menu/692b242f96dd5b7237d87e98.webp"
+      "image_url": "assets/menu/pizza-cardinale.webp"
     },
     {
       "id": "pizza-h11-mix",
@@ -315,7 +315,7 @@
       "source_ref": "692b242eaaad91726fb6db55",
       "source_order": 5,
       "sort_order": 5,
-      "image_url": "assets/menu/692b242eaaad91726fb6db55.webp"
+      "image_url": "assets/menu/pizza-h11-mix.webp"
     },
     {
       "id": "pizza-quattro-formaggi",
@@ -327,7 +327,7 @@
       "source_ref": "692b242f96dd5b538ed87e85",
       "source_order": 6,
       "sort_order": 6,
-      "image_url": "assets/menu/692b242f96dd5b538ed87e85.webp"
+      "image_url": "assets/menu/pizza-quattro-formaggi.webp"
     },
     {
       "id": "pizza-vegetarisch",
@@ -339,7 +339,7 @@
       "source_ref": "692b242f313bfdda910054a1",
       "source_order": 7,
       "sort_order": 7,
-      "image_url": "assets/menu/692b242f313bfdda910054a1.webp"
+      "image_url": "assets/menu/pizza-vegetarisch.webp"
     },
     {
       "id": "beef-doener-pizza",
@@ -351,7 +351,7 @@
       "source_ref": "692b242f96dd5bcc76d87e97",
       "source_order": 8,
       "sort_order": 8,
-      "image_url": "assets/menu/692b242f96dd5bcc76d87e97.webp"
+      "image_url": "assets/menu/beef-doener-pizza.webp"
     },
     {
       "id": "chicken-doener-pizza",
@@ -363,7 +363,7 @@
       "source_ref": "692b242f2b865e61b0b761ca",
       "source_order": 9,
       "sort_order": 9,
-      "image_url": "assets/menu/692b242f2b865e61b0b761ca.webp"
+      "image_url": "assets/menu/chicken-doener-pizza.webp"
     },
     {
       "id": "koefte-teller",
@@ -375,7 +375,7 @@
       "source_ref": "692b242e313bfd863700548e",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242e313bfd863700548e.webp"
+      "image_url": "assets/menu/koefte-teller.webp"
     },
     {
       "id": "chicken-doener-teller",
@@ -387,7 +387,7 @@
       "source_ref": "692b242f313bfdeb0f0054a0",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242f313bfdeb0f0054a0.webp"
+      "image_url": "assets/menu/chicken-doener-teller.webp"
     },
     {
       "id": "beef-doener-teller",
@@ -399,7 +399,7 @@
       "source_ref": "692b242f2b865e1e77b761c9",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/692b242f2b865e1e77b761c9.webp"
+      "image_url": "assets/menu/beef-doener-teller.webp"
     },
     {
       "id": "iskender-kebap",
@@ -411,7 +411,7 @@
       "source_ref": "692b242faaad91a3f5b6db64",
       "source_order": 3,
       "sort_order": 3,
-      "image_url": "assets/menu/692b242faaad91a3f5b6db64.webp"
+      "image_url": "assets/menu/iskender-kebap.webp"
     },
     {
       "id": "tagesmenue",
@@ -419,7 +419,7 @@
       "name": "Tagesmenü",
       "description": "Täglich wechselndes Gericht – frisch zubereitet.",
       "price_cents": 1490,
-      "image_source_url": "data:image/svg+xml;charset=UTF-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='200'%20height='200'><rect%20width='200'%20height='200'%20fill='%2316140F'/><text%20x='100'%20y='108'%20font-size='86'%20text-anchor='middle'>%F0%9F%8D%BD%EF%B8%8F</text></svg>",
+      "image_source_url": null,
       "source_ref": null,
       "source_order": 0,
       "sort_order": 0,
@@ -435,7 +435,7 @@
       "source_ref": "692b242e1f60a10272fd2cf4",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242e1f60a10272fd2cf4.webp"
+      "image_url": "assets/menu/tzatziki.webp"
     },
     {
       "id": "hummus",
@@ -447,7 +447,7 @@
       "source_ref": "692b242f2b865e730fb761cb",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242f2b865e730fb761cb.webp"
+      "image_url": "assets/menu/hummus.webp"
     },
     {
       "id": "pommes-frites",
@@ -459,7 +459,7 @@
       "source_ref": "692b242e1f60a1cf63fd2cf6",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/692b242e1f60a1cf63fd2cf6.webp"
+      "image_url": "assets/menu/pommes-frites.webp"
     },
     {
       "id": "reis",
@@ -467,7 +467,7 @@
       "name": "Reis",
       "description": "Locker gedämpfter Reis – die klassische Beilage.",
       "price_cents": 390,
-      "image_source_url": "data:image/svg+xml;charset=UTF-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='200'%20height='200'><rect%20width='200'%20height='200'%20fill='%2316140F'/><text%20x='100'%20y='108'%20font-size='86'%20text-anchor='middle'>%F0%9F%8D%9A</text></svg>",
+      "image_source_url": null,
       "source_ref": null,
       "source_order": 3,
       "sort_order": 3,
@@ -483,7 +483,7 @@
       "source_ref": "692b242f1f60a1b5e8fd2d03",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242f1f60a1b5e8fd2d03.webp"
+      "image_url": "assets/menu/milchreis.webp"
     },
     {
       "id": "magnolia-schoko",
@@ -495,7 +495,7 @@
       "source_ref": "692b242faaad91a4c9b6db65",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242faaad91a4c9b6db65.webp"
+      "image_url": "assets/menu/magnolia-schoko.webp"
     },
     {
       "id": "magnolia-lotus",
@@ -507,7 +507,7 @@
       "source_ref": "692b242f1f60a1e64afd2d04",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/692b242f1f60a1e64afd2d04.webp"
+      "image_url": "assets/menu/magnolia-lotus.webp"
     },
     {
       "id": "magnolia-oreo",
@@ -519,7 +519,7 @@
       "source_ref": "692b242e313bfd1d3900548f",
       "source_order": 3,
       "sort_order": 3,
-      "image_url": "assets/menu/692b242e313bfd1d3900548f.webp"
+      "image_url": "assets/menu/magnolia-oreo.webp"
     },
     {
       "id": "baklava",
@@ -531,7 +531,7 @@
       "source_ref": "692b242e2b865e2d55b761bd",
       "source_order": 4,
       "sort_order": 4,
-      "image_url": "assets/menu/692b242e2b865e2d55b761bd.webp"
+      "image_url": "assets/menu/baklava.webp"
     },
     {
       "id": "havuc-baklava",
@@ -543,10 +543,10 @@
       "source_ref": "692b242f313bfd446e0054a2",
       "source_order": 5,
       "sort_order": 5,
-      "image_url": "assets/menu/692b242f313bfd446e0054a2.webp"
+      "image_url": "assets/menu/havuc-baklava.webp"
     },
     {
-      "id": "ekerpare",
+      "id": "sekerpare",
       "category_id": "desserts",
       "name": "Şekerpare",
       "description": "Türkisches Gebäck – weich und sirupartig süß.",
@@ -555,7 +555,7 @@
       "source_ref": "692b242e2b865e0534b761be",
       "source_order": 6,
       "sort_order": 6,
-      "image_url": "assets/menu/692b242e2b865e0534b761be.webp"
+      "image_url": "assets/menu/sekerpare.webp"
     },
     {
       "id": "coca-cola-0-33l",
@@ -567,7 +567,7 @@
       "source_ref": "692b242e2b865e1f18b761c2",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/692b242e2b865e1f18b761c2.webp"
+      "image_url": "assets/menu/coca-cola-0-33l.webp"
     },
     {
       "id": "coca-cola-0-5l",
@@ -579,7 +579,7 @@
       "source_ref": "692b242f2b865ea1a5b761d7",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/692b242f2b865ea1a5b761d7.webp"
+      "image_url": "assets/menu/coca-cola-0-5l.webp"
     },
     {
       "id": "ayran-0-25l",
@@ -591,7 +591,7 @@
       "source_ref": "692b242f1f60a10304fd2d01",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/692b242f1f60a10304fd2d01.webp"
+      "image_url": "assets/menu/ayran-0-25l.webp"
     },
     {
       "id": "eistee-pfirsich-0-5l",
@@ -603,7 +603,7 @@
       "source_ref": "692b242eaaad9107a5b6db53",
       "source_order": 3,
       "sort_order": 3,
-      "image_url": "assets/menu/692b242eaaad9107a5b6db53.webp"
+      "image_url": "assets/menu/eistee-pfirsich-0-5l.webp"
     },
     {
       "id": "eistee-zitrone-0-33l",
@@ -615,7 +615,7 @@
       "source_ref": "692b242f2b865e24beb761c7",
       "source_order": 4,
       "sort_order": 4,
-      "image_url": "assets/menu/692b242f2b865e24beb761c7.webp"
+      "image_url": "assets/menu/eistee-zitrone-0-33l.webp"
     },
     {
       "id": "coca-cola-zero-0-33l",
@@ -627,7 +627,7 @@
       "source_ref": "692b242e96dd5bd4f2d87e80",
       "source_order": 5,
       "sort_order": 5,
-      "image_url": "assets/menu/692b242e96dd5bd4f2d87e80.webp"
+      "image_url": "assets/menu/coca-cola-zero-0-33l.webp"
     },
     {
       "id": "red-bull-250ml",
@@ -639,10 +639,10 @@
       "source_ref": "692b242e1f60a14821fd2cf5",
       "source_order": 6,
       "sort_order": 6,
-      "image_url": "assets/menu/692b242e1f60a14821fd2cf5.webp"
+      "image_url": "assets/menu/red-bull-250ml.webp"
     },
     {
-      "id": "beypazar-soda",
+      "id": "beypazari-soda",
       "category_id": "getranke",
       "name": "Beypazarı Soda",
       "description": "Türkisches Mineralwasser mit Kohlensäure – klassisch.",
@@ -651,7 +651,7 @@
       "source_ref": "6a6c3674cf81b06f0543db1d",
       "source_order": 7,
       "sort_order": 7,
-      "image_url": "assets/menu/6a6c3674cf81b06f0543db1d.jpg"
+      "image_url": "assets/menu/beypazari-soda.jpg"
     },
     {
       "id": "roemerquelle-0-2l",
@@ -663,7 +663,7 @@
       "source_ref": "6a6c3674cf81b06f0543db27",
       "source_order": 8,
       "sort_order": 8,
-      "image_url": "assets/menu/6a6c3674cf81b06f0543db27.jpg"
+      "image_url": "assets/menu/roemerquelle-0-2l.jpg"
     },
     {
       "id": "fritz-kola-0-33l",
@@ -675,7 +675,7 @@
       "source_ref": "6a6c367432db2dd157f777a7",
       "source_order": 9,
       "sort_order": 9,
-      "image_url": "assets/menu/6a6c367432db2dd157f777a7.jpg"
+      "image_url": "assets/menu/fritz-kola-0-33l.jpg"
     },
     {
       "id": "eistee-im-glas-0-33l",
@@ -687,7 +687,7 @@
       "source_ref": "6a6c367432db2dd157f7777a",
       "source_order": 10,
       "sort_order": 10,
-      "image_url": "assets/menu/6a6c367432db2dd157f7777a.jpg"
+      "image_url": "assets/menu/eistee-im-glas-0-33l.jpg"
     },
     {
       "id": "soda-himbeer-0-33l",
@@ -699,7 +699,7 @@
       "source_ref": "6a6c367432db2dd157f7776d",
       "source_order": 11,
       "sort_order": 11,
-      "image_url": "assets/menu/6a6c367432db2dd157f7776d.jpg"
+      "image_url": "assets/menu/soda-himbeer-0-33l.jpg"
     },
     {
       "id": "soda-zitrone-0-33l",
@@ -711,7 +711,7 @@
       "source_ref": "6a6c3676cf81b06f0543db4e",
       "source_order": 12,
       "sort_order": 12,
-      "image_url": "assets/menu/6a6c3676cf81b06f0543db4e.jpg"
+      "image_url": "assets/menu/soda-zitrone-0-33l.jpg"
     },
     {
       "id": "pago-0-25l",
@@ -719,7 +719,7 @@
       "name": "Pago 0,25l",
       "description": "Fruchtsaft in der Glasflasche – fruchtig und natürlich.",
       "price_cents": 250,
-      "image_source_url": "data:image/svg+xml;charset=UTF-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='200'%20height='200'><rect%20width='200'%20height='200'%20fill='%2316140F'/><text%20x='100'%20y='108'%20font-size='86'%20text-anchor='middle'>%F0%9F%A7%83</text></svg>",
+      "image_source_url": null,
       "source_ref": null,
       "source_order": 13,
       "sort_order": 13,
@@ -735,7 +735,7 @@
       "source_ref": "6a6c3676497cd89d2460de2d",
       "source_order": 0,
       "sort_order": 0,
-      "image_url": "assets/menu/6a6c3676497cd89d2460de2d.jpg"
+      "image_url": "assets/menu/tuerkischer-kaffee.jpg"
     },
     {
       "id": "melange",
@@ -747,7 +747,7 @@
       "source_ref": "6a6c3674188345b27e1baaeb",
       "source_order": 1,
       "sort_order": 1,
-      "image_url": "assets/menu/6a6c3674188345b27e1baaeb.jpg"
+      "image_url": "assets/menu/melange.jpg"
     },
     {
       "id": "cappuccino",
@@ -759,7 +759,7 @@
       "source_ref": "6a6c3676a4c8a1a2c399d868",
       "source_order": 2,
       "sort_order": 2,
-      "image_url": "assets/menu/6a6c3676a4c8a1a2c399d868.jpg"
+      "image_url": "assets/menu/cappuccino.jpg"
     },
     {
       "id": "espresso-einfach",
@@ -771,7 +771,7 @@
       "source_ref": "6a6c3676497cd89d2460de31",
       "source_order": 3,
       "sort_order": 3,
-      "image_url": "assets/menu/6a6c3676497cd89d2460de31.jpg"
+      "image_url": "assets/menu/espresso-einfach.jpg"
     },
     {
       "id": "espresso-doppelt",
@@ -783,7 +783,7 @@
       "source_ref": "6a6c3676497cd89d2460de31",
       "source_order": 4,
       "sort_order": 4,
-      "image_url": "assets/menu/6a6c3676497cd89d2460de31.jpg"
+      "image_url": "assets/menu/espresso-doppelt.jpg"
     },
     {
       "id": "latte-macchiato",
@@ -791,7 +791,7 @@
       "name": "Latte Macchiato",
       "description": "Heiße Milch mit Espresso und viel Milchschaum – mild und cremig.",
       "price_cents": 590,
-      "image_source_url": "data:image/svg+xml;charset=UTF-8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='200'%20height='200'><rect%20width='200'%20height='200'%20fill='%2316140F'/><text%20x='100'%20y='108'%20font-size='86'%20text-anchor='middle'>%E2%98%95</text></svg>",
+      "image_source_url": null,
       "source_ref": null,
       "source_order": 5,
       "sort_order": 5,
