@@ -134,20 +134,27 @@ window.H11 = {
 // DIREKT-BESTELLUNG (Abholung) – Konfiguration
 // ============================================================
 window.H11_ORDERING = {
-  // true  = Demo-Zahlung (KEINE echte Zahlung). Auf false stellen = echte Stripe-Zahlung (Supabase nötig).
+  // true  = Demo-Modus als Fallback erlaubt (solange restaurant_settings.demo_mode = true oder DB noch nicht migriert).
+  // false = ausschließlich echte Stripe-Zahlung über die Server-Edge-Function create-checkout-session.
   DEMO_MODE: true,
 
-  // Nur ÖFFENTLICHE Werte eintragen (Supabase → Project Settings → API).
-  // NIEMALS service_role- oder Stripe-Secret-Keys hier eintragen!
-  // Leer lassen = lokaler Demo-Speicher (nur im selben Browser sichtbar).
-  supabase: { url: "", anonKey: "" },
+  // Browser-sichere öffentliche Supabase-Konfiguration (Publishable Key).
+  // WICHTIG: NIEMALS secret / service_role Keys oder Stripe-Secret-Keys im Frontend oder in Git speichern!
+  SUPABASE_URL: "https://frjjmhkkchmwfgwolqcd.supabase.co",
+  SUPABASE_PUBLISHABLE_KEY: "sb_publishable_wIXC1hHSUmKEndPRh-EnIQ_-kmP4dve",
 
-  // Preise sind vorläufige DEMO-Preise (nicht bestätigt). Auf false setzen, sobald der Inhaber Preise bestätigt hat.
+  supabase: {
+    url: "https://frjjmhkkchmwfgwolqcd.supabase.co",
+    publishableKey: "sb_publishable_wIXC1hHSUmKEndPRh-EnIQ_-kmP4dve",
+    anonKey: "sb_publishable_wIXC1hHSUmKEndPRh-EnIQ_-kmP4dve",
+  },
+
+  // Wird beim Laden aus Supabase automatisch auf false gesetzt, sobald echte Preise aus menu_items geladen wurden.
   pricesAreDemo: true,
 
   currency: "EUR",
   maxQtyPerLine: 20,
-  localFirstOrderNumber: 142, // Demo: erste Bestellnummer = H142
+  localFirstOrderNumber: 142, // Lokaler Fallback: erste Bestellnummer = H11-142
 };
 
 // ------------------------------------------------------------

@@ -276,25 +276,49 @@ alter table public.order_items enable row level security;
 alter table public.stripe_events enable row level security;
 
 -- Speisekarte & Einstellungen: öffentlich lesbar, nur Personal darf ändern
+drop policy if exists "menu read" on public.categories;
 create policy "menu read" on public.categories for select using (true);
+drop policy if exists "menu read" on public.menu_items;
 create policy "menu read" on public.menu_items for select using (true);
+drop policy if exists "menu read" on public.menu_option_groups;
 create policy "menu read" on public.menu_option_groups for select using (true);
+drop policy if exists "menu read" on public.menu_options;
 create policy "menu read" on public.menu_options for select using (true);
+drop policy if exists "settings read" on public.restaurant_settings;
 create policy "settings read" on public.restaurant_settings for select using (true);
 
+drop policy if exists "staff write" on public.categories;
 create policy "staff write" on public.categories for all to authenticated using (public.is_staff()) with check (public.is_staff());
+drop policy if exists "staff write" on public.menu_items;
 create policy "staff write" on public.menu_items for all to authenticated using (public.is_staff()) with check (public.is_staff());
+drop policy if exists "staff write" on public.menu_option_groups;
 create policy "staff write" on public.menu_option_groups for all to authenticated using (public.is_staff()) with check (public.is_staff());
+drop policy if exists "staff write" on public.menu_options;
 create policy "staff write" on public.menu_options for all to authenticated using (public.is_staff()) with check (public.is_staff());
+drop policy if exists "staff update" on public.restaurant_settings;
 create policy "staff update" on public.restaurant_settings for update to authenticated using (public.is_staff()) with check (public.is_staff());
 
 -- Bestellungen: NUR Personal darf lesen/ändern. Kunden haben keinen direkten Tabellenzugriff.
+drop policy if exists "staff read" on public.orders;
 create policy "staff read" on public.orders for select to authenticated using (public.is_staff());
+drop policy if exists "staff update" on public.orders;
 create policy "staff update" on public.orders for update to authenticated using (public.is_staff()) with check (public.is_staff());
+drop policy if exists "staff read" on public.order_items;
 create policy "staff read" on public.order_items for select to authenticated using (public.is_staff());
--- staff_users, order_counters, stripe_events: keine Policies → nur service_role
+-- staff_users, order_counters, stripe_events: kein öffentlicher Zugriff
 
 -- ---------- Realtime ----------
-alter publication supabase_realtime add table public.orders;
-alter publication supabase_realtime add table public.restaurant_settings;
-alter publication supabase_realtime add table public.menu_items;
+do $$
+declare
+  t text;
+begin
+  foreach t in array array['orders', 'restaurant_settings', 'menu_items', 'categories'] loop
+    if not exists (
+      select 1 from pg_publication_tables
+      where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = t
+    ) then
+      execute format('alter publication supabase_realtime add table public.%I', t);
+    end if;
+  end loop;
+end $$;
+

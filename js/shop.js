@@ -55,7 +55,7 @@
   pm.addEventListener("click", (e) => { if (e.target === pm || e.target.closest(".x")) closeProduct(); });
 
   function openProduct(id) {
-    const it = C.catalog.byId[id]; if (!it || !it.active) return;
+    const it = C.catalog.byId[id]; if (!it || !it.active || !(it.price > 0)) return;
     if (!canOrder()) return toast(blockedMsg());
     if (it.sold_out) return toast("Heute ausverkauft.");
     lastFocus = document.activeElement;
@@ -239,11 +239,13 @@
   /* ---------- Start ---------- */
   async function init() {
     try {
+      await A.ready();
       const [s, m] = await Promise.all([A.getSettings(), A.getMenuState()]);
       state.settings = s || state.settings; applyRows(m);
     } catch (e) { state.unavailable = true; refresh(); }
     A.watchSettings((s) => { state.unavailable = false; setSettings(s); });
     A.watchMenu(applyRows);
+    document.addEventListener("h11:catalog", refresh);
     const p = new URLSearchParams(location.search);
     if (p.get("payment") === "cancelled") {
       toast("Zahlung abgebrochen – dein Warenkorb ist noch da.", 6000);
@@ -252,5 +254,6 @@
     renderBar(); refresh();
   }
   window.H11Shop = { openProduct, openCart, isSoldOut, canOrder };
-  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();

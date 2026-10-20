@@ -1,32 +1,39 @@
-// Erzeugt supabase/seed.sql aus der Speisekarte in config.js (einzige Quelle der Wahrheit für Inhalte).
+// Erzeugt supabase/seed.sql aus data/h11-menu.json (offizielle H11-Speisekarte).
 // Ausführen:  node supabase/generate-seed.mjs
-// Bei Re-Run werden Name/Beschreibung/Preis/Bild aktualisiert – "sold_out" und "active" bleiben unverändert.
+// Bei Re-Run werden Name/Beschreibung/Preis/Bild aktualisiert – "sold_out" und "restaurant_settings" bleiben erhalten.
 import { readFileSync, writeFileSync } from "node:fs";
-import vm from "node:vm";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const ctx = { window: {} }; ctx.window.window = ctx.window;
-vm.createContext(ctx);
-vm.runInContext(readFileSync(join(root, "config.js"), "utf8"), ctx);
-const { catalog } = ctx.window.H11;
-const O = ctx.window.H11_ORDERING;
+const menu = JSON.parse(readFileSync(join(root, "data", "h11-menu.json"), "utf8"));
 
 const q = (v) => (v == null ? "null" : "'" + String(v).replace(/'/g, "''") + "'");
-const out = ["-- GENERIERT von supabase/generate-seed.mjs – nicht von Hand bearbeiten.", "begin;"];
+const out = [
+  "-- GENERIERT von supabase/generate-seed.mjs aus data/h11-menu.json – nicht von Hand bearbeiten.",
+  "-- Sicher mehrfach ausführbar (Upsert): sold_out-Status und Restaurant-Einstellungen werden NICHT überschrieben.",
+  "begin;",
+];
 
-catalog.categories.forEach((c) => out.push(
-  `insert into categories (id,name,slug,sort_order) values (${q(c.id)},${q(c.name)},${q(c.slug)},${c.sort_order}) on conflict (id) do update set name=excluded.name, sort_order=excluded.sort_order;`));
-
-catalog.items.forEach((i) => {
-  out.push(`insert into menu_items (id,category_id,name,description,price,price_is_demo,image_url,sort_order) values (${q(i.id)},${q(i.category)},${q(i.name)},${q(i.desc)},${i.price.toFixed(2)},${O.pricesAreDemo},${q(i.image)},${i.sort_order}) on conflict (id) do update set name=excluded.name, description=excluded.description, price=excluded.price, price_is_demo=excluded.price_is_demo, image_url=excluded.image_url, sort_order=excluded.sort_order;`);
-  i.groups.forEach((g) => {
-    out.push(`insert into menu_option_groups (id,menu_item_id,name,required,min_choices,max_choices,sort_order) values (${q(g.id)},${q(i.id)},${q(g.name)},${g.required},${g.min},${g.max},${g.sort_order}) on conflict (id) do update set name=excluded.name, required=excluded.required, min_choices=excluded.min_choices, max_choices=excluded.max_choices;`);
-    g.options.forEach((o) => out.push(
-      `insert into menu_options (id,option_group_id,name,price_delta,sort_order) values (${q(o.id)},${q(g.id)},${q(o.name)},${o.delta.toFixed(2)},${o.sort_order}) on conflict (id) do update set name=excluded.name, price_delta=excluded.price_delta;`));
-  });
+menu.categories.forEach((c) => {
+  out.push(
+    `insert into public.categories (id,name,slug,sort_order,active) values (${q(c.id)},${q(c.name)},${q(c.id)},${c.sort_order},true) on conflict (id) do update set name=excluded.name, slug=excluded.slug, sort_order=excluded.sort_order, active=true;`
+  );
 });
-out.push(`update restaurant_settings set demo_mode=${!!O.DEMO_MODE} where id=1;`, "commit;");
+
+menu.items.forEach((i) => {
+  const cents = i.price_cents != null ? Number(i.price_cents) : 0;
+  const eur = (cents / 100).toFixed(2);
+  const active = cents > 0;
+  out.push(
+    `insert into public.menu_items (id,category_id,name,description,price,price_cents,price_is_demo,image_url,image_source_url,source_ref,source_order,sort_order,active) values (${q(i.id)},${q(i.category_id)},${q(i.name)},${q(i.description)},${eur},${cents},false,${q(i.image_url)},${q(i.image_source_url)},${q(i.source_ref)},${i.source_order ?? 0},${i.sort_order ?? 0},${active}) on conflict (id) do update set category_id=excluded.category_id, name=excluded.name, description=excluded.description, price=excluded.price, price_cents=excluded.price_cents, price_is_demo=false, image_url=coalesce(excluded.image_url, public.menu_items.image_url), image_source_url=excluded.image_source_url, source_ref=excluded.source_ref, source_order=excluded.source_order, sort_order=excluded.sort_order, active=excluded.active;`
+  );
+});
+
+out.push(
+  "insert into public.restaurant_settings (id, restaurant_name, address, postal_code, city, ordering_enabled, pickup_enabled, demo_mode) values (1, 'H11 Neubau', 'Neubaugasse 9, 1070 Wien', '1070', 'Wien', true, true, true) on conflict (id) do nothing;",
+  "commit;"
+);
+
 writeFileSync(join(root, "supabase", "seed.sql"), out.join("\n") + "\n");
-console.log(`seed.sql: ${catalog.categories.length} Kategorien, ${catalog.items.length} Artikel`);
+console.log(`seed.sql: ${menu.categories.length} Kategorien, ${menu.items.length} Artikel`);
