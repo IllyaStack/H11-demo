@@ -328,6 +328,8 @@
   let bootstrapPromise = null;
 
   function applyCatalogFromSupabase(cats, rows) {
+    const prevById = (C.catalog && C.catalog.byId) || {};
+    const prevByName = (C.catalog && C.catalog.byName) || {};
     const categories = [];
     const items = [];
     const byId = {};
@@ -376,6 +378,10 @@
                   sort_order: o.sort_order ?? 0,
                 })),
             }));
+          const rawImg = typeof r.image_url === "string" ? r.image_url.trim() : "";
+          const localMatch = prevById[r.id] || prevByName[r.name] || null;
+          const localImg = localMatch && typeof localMatch.image === "string" ? localMatch.image.trim() : "";
+          const resolvedImage = rawImg ? rawImg : localImg ? localImg : null;
           const it = {
             id: r.id,
             name: r.name,
@@ -384,7 +390,7 @@
             price_cents: priceCents,
             displayPrice: null,
             category: catId,
-            image: r.image_url || null,
+            image: resolvedImage,
             active: r.active !== false,
             sold_out: !!r.sold_out,
             sort_order: r.sort_order ?? ii,
@@ -465,7 +471,6 @@
             detail: { source: C.menuSource, settings: settingsRes.data || null },
           })
         );
-        document.dispatchEvent(new CustomEvent("h11:menu"));
         return { dbReady: true, source: C.menuSource, settings: settingsRes.data || null };
       } catch (e) {
         dbReady = false;

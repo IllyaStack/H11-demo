@@ -10,11 +10,63 @@
   };
   const esc = window.H11UI.esc;
 
+  function resolveMenuImage(path) {
+    if (!path) return null;
+    const trimmed = String(path).trim();
+    if (!trimmed) return null;
+    try {
+      return new URL(trimmed, document.baseURI).href;
+    } catch {
+      return null;
+    }
+  }
+  window.H11UI.resolveMenuImage = resolveMenuImage;
+
   const hasPrice = (i) => i && typeof i.price === "number" && !Number.isNaN(i.price) && i.price > 0;
   // Preisanzeige: bestätigter Anzeigetext, sonst numerischer Preis (mit * nur solange Demo-Preise aktiv sind)
   const priceLabel = (i) =>
     i.displayPrice || (hasPrice(i) ? euro(i.price) + (O.pricesAreDemo ? "*" : "") : "Preis folgt");
   const soldOut = (i) => i.sold_out || !i.active;
+
+  function createThumbPlaceholder() {
+    return el('<div class="mi__img mi__img--ph" aria-hidden="true"><span>H11</span></div>');
+  }
+
+  function applyThumbFallback(img) {
+    if (!img || img.tagName !== "IMG" || !img.classList.contains("mi__img")) return;
+    if (img.dataset.fallbackApplied) return;
+    img.dataset.fallbackApplied = "1";
+    img.replaceWith(createThumbPlaceholder());
+  }
+
+  function handleMenuImageError(e) {
+    applyThumbFallback(e && e.target ? e.target : this);
+  }
+
+  function bindMenuImageFallbacks(container) {
+    container.querySelectorAll("img.mi__img").forEach((img) => {
+      img.addEventListener("error", handleMenuImageError);
+      if (img.complete && img.naturalWidth === 0) {
+        applyThumbFallback(img);
+      }
+    });
+  }
+
+  const preloadedCategoryUrls = new Set();
+  let preloadTimer = null;
+  function preloadCategoryImages(items) {
+    clearTimeout(preloadTimer);
+    preloadTimer = setTimeout(() => {
+      (items || []).forEach((it) => {
+        const resolvedUrl = resolveMenuImage(it && it.image);
+        if (!resolvedUrl || preloadedCategoryUrls.has(resolvedUrl)) return;
+        preloadedCategoryUrls.add(resolvedUrl);
+        const preload = new Image();
+        preload.decoding = "async";
+        preload.src = resolvedUrl;
+      });
+    }, 50);
+  }
 
   // Favorites (Name → Katalogeintrag aus Supabase bzw. Fallback, damit Preis & Bestellung zum Menü passen)
   function renderFavs() {
@@ -23,9 +75,10 @@
         const it = C.catalog.byName[f.name];
         const out = it && soldOut(it);
         const orderable = it && hasPrice(it);
+        const favImg = resolveMenuImage((it && it.image) || f.img || "assets/hero.jpg") || "assets/hero.jpg";
         return el(`
       <article class="card reveal in">
-        <img src="${esc((it && it.image) || f.img || "assets/hero.jpg")}" alt="${esc(f.name)}" loading="lazy" decoding="async">
+        <img src="${esc(favImg)}" alt="${esc(f.name)}" loading="lazy" decoding="async">
         <div class="card__body">
           <h3>${esc(f.name)}</h3><p>${esc((it && it.desc) || f.desc)}</p>
           <div class="card__row">
@@ -45,7 +98,14 @@
   // Menu (aus Supabase-Kategorien & menu_items geladen, mit Demo-Fallback)
   const tabs = $("#tabs"),
     list = $("#menuList");
+  list.addEventListener("error", handleMenuImageError, true);
   let current = C.menu[0] ? C.menu[0].id : "";
+  let renderedSignature = "";
+
+  function categorySignature(cat) {
+    if (!cat) return "";
+    return cat.id + "::" + cat.items.map((i) => `${i.id}:${resolveMenuImage(i.image) || ""}`).join("|");
+  }
 
   function show(id) {
     if (!C.menu.length) return;
@@ -56,14 +116,21 @@
       b.classList.toggle("on", on);
       b.setAttribute("aria-selected", on);
     });
+    const sig = categorySignature(cat);
+    if (sig === renderedSignature && list.children.length === cat.items.length) {
+      updateMenuStateInPlace();
+      return;
+    }
+    renderedSignature = sig;
     list.innerHTML = cat.items
       .map((i) => {
         const out = soldOut(i);
         const orderable = hasPrice(i);
-        const thumb = i.image
-          ? `<img class="mi__img" src="${esc(i.image)}" alt="${esc(i.name)}" loading="lazy" decoding="async">`
+        const resolvedUrl = resolveMenuImage(i.image);
+        const thumb = resolvedUrl
+          ? `<img class="mi__img" src="${esc(resolvedUrl)}" alt="${esc(i.name)}" width="88" height="88" loading="eager" decoding="async">`
           : `<div class="mi__img mi__img--ph" aria-hidden="true"><span>H11</span></div>`;
-        return `<li class="${out ? "mi--out" : ""}">${thumb}<div class="mi__body"><h3>${esc(i.name)}</h3><p>${esc(i.desc)}</p></div>
+        return `<li class="${out ? "mi--out" : ""}" data-item-id="${esc(i.id)}">${thumb}<div class="mi__body"><h3>${esc(i.name)}</h3><p>${esc(i.desc)}</p></div>
         <div class="mi__r"><span class="pr">${out ? "Heute ausverkauft" : priceLabel(i)}</span>
         ${
           orderable
@@ -72,6 +139,29 @@
         }</div></li>`;
       })
       .join("");
+    bindMenuImageFallbacks(list);
+    preloadCategoryImages(cat.items);
+  }
+
+  // Aktualisiert sold_out / Preis-Status in-place ohne die <img>-Thumbnails neu aufzubauen
+  function updateMenuStateInPlace() {
+    if (!C.menu.length) return;
+    const cat = C.menu.find((c) => c.id === current) || C.menu[0];
+    const rows = list.querySelectorAll("li[data-item-id]");
+    if (rows.length !== cat.items.length) {
+      show(current);
+      return;
+    }
+    rows.forEach((li) => {
+      const it = C.catalog.byId[li.dataset.itemId];
+      if (!it) return;
+      const out = soldOut(it);
+      li.classList.toggle("mi--out", out);
+      const pr = li.querySelector(".pr");
+      if (pr) pr.textContent = out ? "Heute ausverkauft" : priceLabel(it);
+      const btn = li.querySelector("[data-add]");
+      if (btn) btn.disabled = out;
+    });
   }
 
   function renderTabs() {
@@ -157,7 +247,7 @@
     setTimeout(upd, 50);
   });
   document.addEventListener("h11:menu", () => {
-    show(current);
+    updateMenuStateInPlace();
     renderFavs();
     const pn = $("#priceNote");
     if (pn) pn.hidden = !O.pricesAreDemo;

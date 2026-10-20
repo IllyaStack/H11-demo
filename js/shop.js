@@ -12,23 +12,24 @@
   const blockedMsg = () => state.unavailable ? "Das Bestellsystem ist gerade nicht erreichbar. Bitte versuche es später erneut."
     : "Online-Bestellungen sind momentan pausiert.";
 
-  function setSettings(s) { if (s) state.settings = s; refresh(); }
+  function setSettings(s) { if (s) state.settings = s; refresh(false); }
   function applyRows(rows) {
+    let changed = false;
     (rows || []).forEach((r) => {
       const it = C.catalog.byId[r.id]; if (!it) return;
-      if (r.price != null) it.price = Number(r.price);
-      if (r.active != null) it.active = r.active;
-      if (r.sold_out != null) it.sold_out = r.sold_out;
+      if (r.price != null && Number(r.price) !== it.price) { it.price = Number(r.price); changed = true; }
+      if (r.active != null && Boolean(r.active) !== Boolean(it.active)) { it.active = r.active; changed = true; }
+      if (r.sold_out != null && Boolean(r.sold_out) !== Boolean(it.sold_out)) { it.sold_out = r.sold_out; changed = true; }
     });
-    refresh();
+    refresh(changed);
   }
-  function refresh() {
+  function refresh(emitMenu = false) {
     const b = $("#orderStatus");
     if (b) {
       b.hidden = canOrder();
       b.textContent = canOrder() ? "" : blockedMsg() + (state.settings.pickup_message ? " " + state.settings.pickup_message : "");
     }
-    document.dispatchEvent(new CustomEvent("h11:menu"));
+    if (emitMenu) document.dispatchEvent(new CustomEvent("h11:menu"));
     renderBar();
     if (drawerOpen()) render();
   }
@@ -235,19 +236,24 @@
   /* ---------- Start ---------- */
   async function init() {
     try {
-      await A.ready();
-      const [s, m] = await Promise.all([A.getSettings(), A.getMenuState()]);
-      state.settings = s || state.settings; applyRows(m);
-    } catch (e) { state.unavailable = true; refresh(); }
+      const boot = await A.ready();
+      if (boot && boot.dbReady && boot.settings) {
+        state.settings = boot.settings;
+      } else {
+        const [s, m] = await Promise.all([A.getSettings(), A.getMenuState()]);
+        state.settings = s || state.settings;
+        applyRows(m);
+      }
+    } catch (e) { state.unavailable = true; refresh(false); }
     A.watchSettings((s) => { state.unavailable = false; setSettings(s); });
     A.watchMenu(applyRows);
-    document.addEventListener("h11:catalog", refresh);
+    document.addEventListener("h11:catalog", () => refresh(false));
     const p = new URLSearchParams(location.search);
     if (p.get("payment") === "cancelled") {
       toast("Zahlung abgebrochen – dein Warenkorb ist noch da.", 6000);
       history.replaceState(null, "", location.pathname + location.hash);
     }
-    renderBar(); refresh();
+    renderBar(); refresh(false);
   }
   window.H11Shop = { openProduct, openCart, isSoldOut, canOrder };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

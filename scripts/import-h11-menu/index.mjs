@@ -176,11 +176,13 @@ async function main() {
     downloaded++;
   }
 
-  // Alte Hash-Dateinamen in assets/menu aufräumen, sodass nur saubere Slug-Dateien verbleiben
+  // Bewahrt sowohl Slug-Dateinamen als auch source_ref-Dateinamen (von bestehenden Supabase-Einträgen genutzt)
   if (!args.has("--dry-run") && fs.existsSync(IMG_DIR)) {
-    for (const f of fs.readdirSync(IMG_DIR)) {
-      if (!activeFiles.has(f) && /^[0-9a-f]{20,}\.(webp|jpg|jpeg|png)$/i.test(f)) {
-        fs.unlinkSync(path.join(IMG_DIR, f));
+    for (const it of items) {
+      if (it.image_url && it.source_ref && fs.existsSync(path.join(ROOT, it.image_url))) {
+        const ext = path.extname(it.image_url);
+        const refFile = path.join(IMG_DIR, `${it.source_ref}${ext}`);
+        if (!fs.existsSync(refFile)) fs.copyFileSync(path.join(ROOT, it.image_url), refFile);
       }
     }
   }
